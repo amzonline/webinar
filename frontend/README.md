@@ -7,8 +7,8 @@
 
 ## Quick start
 
-- Clone the repo: `git clone https://github.com/go4real/Webinar-X.git`.
-- `cd Webinar-X`
+- Clone the repo: `git clone https://github.com/amzonline/webinar.git`.
+- `cd webinar/frontend`
 - `npm install`
 - `npm run dev`
 
