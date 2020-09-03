@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>AWS</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="/static/v2/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS File -->
+    <link href="/static/v2/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="/static/v2/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/static/v2/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/static/v2/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="/static/v2/css/style.css" rel="stylesheet">
+
+</head>
+
+<!-- Modal -->
+<div class="modal fade" id="detail" tabindex="-1" role="dialog">
+    <div class="modal-dialog popupsm modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detail">출금신청</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+
+                <div class="msg">
+                    <i class="la la-check-circle text-blue"></i>
+                    <p class="msg">출금신청이 성공적으로 접수되었습니다.</p>
+                </div>
+                <button type="button" class="btn btn-sm btn-block dark mb-4" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //Modal -->
+
+
+<body>
+
+    <!--==========================
+    Header
+  ============================-->
+    <header id="header" class="subheader">
+        <div class="container-fluid">
+
+            <div id="logo" class="pull-left text-hide">
+                <a href="/ivsevent"> AWS </a>
+            </div>
+
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <% if (isMemberLogin) { %>
+                    <li><a href="/ivsevent/">IVS EVENT</a></li>
+                    <li><a href="/auth/logout">로그아웃</a></li>
+                    <% } else { %>
+                    <li><a href="/auth/login">로그인</a></li>
+                    <li><a href="/membership/join">회원가입</a></li>
+                    <% } %>
+                </ul>
+            </nav>
+            <!-- #nav-menu-container -->
+        </div>
+    </header>
+    <!-- #header -->
+
+    <main id="main">
+        <div class="container subpage">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="subtit">IVS EVENT</h3>
+                </div>
+                <!-- #ivsevent -->
+                <section id="ivsevent">
+                    <div class="container">
+                        <div class="row">
+
+                          <div class="ivseventtit col-md-12">
+                            <h5>EVENT COUNT</h5>
+                            <h4 class="bonus">
+                                <%= historyCnt['cnt'] %>
+                                <small>건</small>
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="ivsevent-menu nav">
+                                    <a href="/ivsevent/history" class="col-4">LIST</a>
+                                    <a href="/ivsevent/" class="col-4">CREATE</a>
+                                    <a href="/ivsevent/playback" class="col-4 active">PLAYBACK</a>
+                                </div>
+
+                            </div>
+                            <!--========================== 시작하기 ============================-->
+                            <div class="col-md-12 start">
+
+                                <h2>JS영역에 'PLAYBACK URL'을 변경하세요 <small>(player.load 부분)</small></h2>
+
+
+                                <div class="justify-content-md-center">
+                                       <iframe style="display:block; width:100%; height: 100vh; border: none;" src="https://codepen.io/amazon-ivs/pen/c3b13a2df34b60ada7756f3a2af8d2f0">
+                                       </iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- .row -->
+
+                    </div>
+                    <!-- .container -->
+                </section>
+                <!-- #ivsevent -->
+
+            </div>
+
+        </div>
+        <!-- #container -->
+    </main>
+
+
+    <!--==========================
+    Footer
+  ============================-->
+    <footer id="footer" class="subfooter">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" data-toggle="modal" data-target="#privacy-policy">개인정보처리방침</a> &nbsp;
+                    <a href="#" data-toggle="modal" data-target="#terms">이용약관</a>
+                </div>
+                <div class="col-md-6">
+                    © 2020, Amazon Web Services, Inc. 또는 자회사. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- #footer -->
+
+    <!-- Modal 기본약관-->
+    <%- include(rootPath + '/views/inc/terms_service.ejs') %>
+    <!-- //Modal 기본약관- -->
+    <!-- Modal 개인정보처리방침 -->
+    <%- include(rootPath + '/views/inc/terms_privacy.ejs') %>
+    <!-- //Modal 개인정보처리방침 -->
+
+    <!-- <a href="#" class="back-to-top"><i class="la la-chevron-up"></i></a>-->
+</body>
+
+</html>
+
+

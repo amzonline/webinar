@@ -1,0 +1,22 @@
+{
+  "db": {
+    "host": "prd-database-cluster.cluster-ct5hiek7n9kg.ap-northeast-2.rds.amazonaws.com",
+    "user": "dbmaster",
+    "password": "12345678",
+    "database": "db-hyeyop-prd",
+    "port" : "5306"
+  },
+  "aws": {
+    "accessKeyId": "AKIAJDTNBBGKHGIBFBFQ",
+    "secretAccessKey": "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",
+    "region": "ap-northeast-2",
+    "apiVersion": "2015-03-31"
+  },
+  "redirectToHTTPS" : true,
+
+  "eth" : {
+    "prv_key" : "",
+    "adm_account" : "0x0a22ad5fd8c5eae06122271db6830177e480fbec",
+    "host" : "https://mainnet.infura.io/B9CiBAdzsQj91G9FKFJY"
+  }
+}

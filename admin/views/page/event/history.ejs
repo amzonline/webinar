@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>AWS</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="/static/v2/img/favicon.png" rel="icon">
+
+    <!-- Bootstrap CSS File -->
+    <link href="/static/v2/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="/static/v2/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/static/v2/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/static/v2/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="/static/v2/css/style.css" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <!--==========================
+    Header
+  ============================-->
+    <header id="header" class="subheader">
+        <div class="container-fluid">
+
+            <div id="logo" class="pull-left text-hide">
+                <a href="/ivsevent"> AWS </a>
+            </div>
+
+            <nav id="nav-menu-container">
+              <ul class="nav-menu">
+                <% if (isMemberLogin) { %>
+                <li><a href="/ivsevent/">IVS EVENT</a></li>
+                <li><a href="/auth/logout">로그아웃</a></li>
+                <% } else { %>
+                <li><a href="/auth/login">로그인</a></li>
+                <li><a href="/membership/join">회원가입</a></li>
+                <% } %>
+              </ul>
+            </nav>
+            <!-- #nav-menu-container -->
+        </div>
+    </header>
+    <!-- #header -->
+    <main id="main">
+        <div class="container subpage">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="subtit">IVS EVENT</h3>
+                </div>
+                <!-- #ivsevent -->
+                <section id="ivsevent">
+                    <div class="container">
+                        <div class="row">
+
+                          <div class="ivseventtit col-md-12">
+                            <h5>EVENT COUNT</h5>
+                            <h4 class="bonus">
+                              <%= historyCnt['cnt'] %>
+                              <small>건</small>
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="ivsevent-menu nav">
+                                    <a href="/ivsevent/history" class="col-4 active">LIST</a>
+                                    <a href="/ivsevent/" class="col-4">CREATE</a>
+                                    <a href="/ivsevent/playback" class="col-4">PLAYBACK</a>
+                                </div>
+
+                            </div>
+                            <!--==========================
+                            내역
+                            ============================-->
+                            <div class="col-md-12 history-box">
+                                <h2>리스트</h2>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">NO</th>
+                                                <th scope="col">NAME</th>
+                                                <th scope="col">TYPE</th>
+                                                <th scope="col">OPEN</th>
+                                                <th scope="col">AUTH</th>
+                                                <th scope="col">START</th>
+                                                <th scope="col">END</th>
+                                                <th scope="col">MAX</th>
+                                                <th scope="col">OBS</th>
+                                                <th scope="col">KEY</th>
+                                                <th scope="col">PLAYBACK</th>
+                                                <th scope="col">STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%if (historyList.length == 0) { %> <tr><td colspan="12">내역이 없습니다.</td></tr> <%}%>
+                                            <% for(var i = 0; i < historyList.length; i++) { %>
+                                            <tr>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].eventNo %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].eventName %></a></td>
+                                                <td><% if (historyList[i].type == 'L') { %>
+                                                        LIVE STREAMING
+                                                    <%} else if (historyList[i].type == 'D') { %>
+                                                        VIDEO STREAMING
+                                                    <%} else { %>
+                                                        VIDEO ONDEMAND
+                                                    <%}%>
+                                                </td>
+                                                <td><% if (historyList[i].siteOpen == '0') { %>
+                                                        NO
+                                                    <%} else {%>
+                                                        YES
+                                                    <%}%>
+                                                </td>
+                                                <td><% if (historyList[i].needAuth == '0') { %>
+                                                        NO
+                                                    <%} else {%>
+                                                        YES
+                                                    <%}%>
+                                                </td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].startDate %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].endDate %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].maxCapacity %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].obsUrl %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackKey %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackUrl %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].status %></a></td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                            </div>
+                        <!-- .row -->
+
+                    </div>
+                    <!-- .container -->
+                </section>
+                <!-- #ivsevent -->
+
+            </div>
+
+        </div>
+        <!-- #container -->
+    </main>
+
+    <!--==========================
+    Footer
+    ============================-->
+    <footer id="footer" class="subfooter">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" data-toggle="modal" data-target="#privacy-policy">개인정보처리방침</a> &nbsp;
+                    <a href="#" data-toggle="modal" data-target="#terms">이용약관</a>
+                </div>
+                <div class="col-md-6">
+                    © 2020, Amazon Web Services, Inc. 또는 자회사. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- #footer -->
+
+    <!-- Modal 기본약관-->
+    <%- include(rootPath + '/views/inc/terms_service.ejs') %>
+    <!-- //Modal 기본약관- -->
+    <!-- Modal 개인정보처리방침 -->
+    <%- include(rootPath + '/views/inc/terms_privacy.ejs') %>
+    <!-- //Modal 개인정보처리방침 -->
+
+    <!-- <a href="#" class="back-to-top"><i class="la la-chevron-up"></i></a>-->
+
+    <!-- JavaScript Libraries -->
+    <script src="/static/v2/lib/jquery/jquery.min.js"></script>
+    <script src="/static/v2/lib/jquery/jquery-migrate.min.js"></script>
+    <script src="/static/v2/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/v2/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/v2/lib/easing/easing.min.js"></script>
+    <script src="/static/v2/lib/superfish/hoverIntent.js"></script>
+    <script src="/static/v2/lib/superfish/superfish.min.js"></script>
+    <script src="/static/v2/lib/wow/wow.min.js"></script>
+    <script src="/static/v2/lib/waypoints/waypoints.min.js"></script>
+    <script src="/static/v2/lib/counterup/counterup.min.js"></script>
+    <script src="/static/v2/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/static/v2/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="/static/v2/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/static/v2/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+
+
+    <!-- Template Main Javascript File -->
+    <script src="/static/v2/js/main.js"></script>
+
+</body>
+
+</html>

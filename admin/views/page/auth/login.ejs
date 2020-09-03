@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>AWS</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="/static/v2/img/favicon.png" rel="icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="/static/v2/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="/static/v2/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/static/v2/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/static/v2/css/style.css" rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+<section id="mlogin">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 clearfix">
+        <div class="header wow fadeInDown">
+          <a href="/"><img src="/static/v2/img/logo2.png" alt="" title="AWS" class="m-logo"/></a>
+          <small>AWS Webinar 사용을 위해 로그인이 필요합니다.</small>
+        </div>
+
+        <form id="loginForm" method="POST" action="/auth/login">
+          <div class="form-group">
+            <input type="email" name="email" class="form-control" placeholder="아이디 (이메일주소)">
+          </div>
+          <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="비밀번호">
+          </div>
+
+
+          <!--<div class="form-check mb-3">-->
+          <!--<input type="checkbox" class="form-check-input"> 로그인계정 저장-->
+          <!--</div>-->
+
+          <input type="submit" value="로그인" class="btn btn-block btn-style2"/>
+        </form>
+      </div>
+
+    </div>
+    <div class="row clear-fix">
+      <div class="col-md-12">
+        <ul class="sticky d-flex">
+          <li><a href="/membership/join"> 회원가입</a></li>
+          <li><a id="findId" href="#"> 아이디찾기</a></li>
+          <li><a href="/find/password"> 비밀번호재설정</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <!-- /container -->
+</section>
+
+<form id="identificationForm" method="post">
+  <input type="hidden" name="m" value="checkplusSerivce">
+  <input type="hidden" name="EncodeData" value="">
+</form>
+
+
+<!-- JavaScript Libraries -->
+
+
+<script src="/static/v2/lib/jquery/jquery.min.js"></script>
+<script src="/static/v2/lib/jquery/jquery-migrate.min.js"></script>
+
+<script src="/static/v2/lib/wow/wow.min.js"></script>
+<script src="/static/v2/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+<script src="/static/v2/js/logo.js"></script>
+<script src="/static/js/ajax.js"></script>
+<script>
+  $(document).ready(function () {
+    $loginForm = $('#loginForm');
+    $loginForm.find('[name=email]').focus();
+    $loginForm.submit(function (e) {
+      if ($loginForm.find('[name=email]').val().length == 0) {
+        alert('AWS Webinar 아이디(이메일주소)를 입력해 주세요.');
+        $loginForm.find('[name=email]').focus();
+        return false;
+      }
+
+      if ($loginForm.find('[name=password]').val().length == 0) {
+        alert('비밀번호를 입력해 주세요.');
+        $loginForm.find('[name=password]').focus();
+        return false;
+      }
+
+      return true;
+    });
+
+    $('#findId').click(function (e) {
+      e.preventDefault();
+
+      post('/identification/request', {code: 'findId'}, function (data) {
+        $('#identificationForm').find('[name=EncodeData]').val(data.encodeData);
+
+        var win = window.open('', 'findIdWindow',
+          'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        win.focus();
+        $('#identificationForm')
+          .attr('action', 'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb')
+          .attr('target', 'findIdWindow')
+          .submit();
+      });
+    });
+  });
+
+  function identificationSuccess(encodedData) {
+    post('/find/id/result', {identificationData: encodedData}, function (data) {
+      $loginForm.find('[name=email]').val(data.email);
+    });
+  }
+
+  function identificationFail(errorCode, authType, cipherTime) {
+  }
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>AWS</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="/static/v2/img/favicon.png" rel="icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="/static/v2/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="/static/v2/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/static/v2/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/static/v2/css/style.css" rel="stylesheet">
+
+
+</head>
+
+
+<body>
+<section id="mlogin-top" class="container-fluid">
+  <div class="header">
+    <a href="/"><img src="/static/v2/img/logo.svg" alt="" title="AWS" class="m-logo"/></a>
+
+  </div>
+</section>
+
+<section id="mlogin">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>회원가입을 환영합니다.</h2>
+        <div class="status">
+          <ul class="d-flex">
+            <li class="step">정보입력</li>
+            <li>가입인증</li>
+            <li>가입완료</li>
+          </ul>
+        </div>
+        <form id="joinForm" method="POST" action="/membership/join/create">
+          <div class="form-group">
+            <small>입력한 주소로 인증 메일이 발송됩니다. <br>실제로 사용중인 이메일 주소를 입력해 주세요.</small>
+            <input type="email" name="email" class="form-control" placeholder="이메일주소">
+
+          </div>
+          <div class="form-group">
+            <small>비밀번호는 영문 대소문자, 숫자, 특수문자를 조합하여 설정해주세요.</small>
+            <input type="password" name="password" class="form-control" placeholder="비밀번호 8~16자리">
+
+          </div>
+          <div class="form-group">
+            <input type="password" name="passwordCheck" class="form-control" placeholder="비밀번호 재입력">
+          </div>
+
+
+          <div class="terms-box">
+            <div class="form-group mb-1">
+              <input type="checkbox" id="agreeAll" class=""> 아래 내용을 모두 확인했고 동의합니다.
+            </div>
+
+            <ul class="terms">
+              <% for(var i = 0; i < termsList.length; i++) { %>
+              <li class="clearfix">
+                <span><input type="checkbox" name="terms" value="<%= termsList[i].termsCode %>"
+                             requireYn="<%= termsList[i].requireYn ? 'Y' : 'N' %>"><%= termsList[i].title %>
+                  (<%= termsList[i].requireYn ? '필수' : '선택' %>)</span>
+                <a href="#" class="btn btn-sm" data-toggle="modal" data-target="#<%= termsList[i].termsCode %>">보기</a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+
+          <a id="nextBtn" class="btn btn-block btn-style2" href="#">다음</a>
+        </form>
+
+        <!-- Modal -->
+        <% for(var i = 0; i < termsList.length; i++) { %>
+        <div class="modal fade" id="<%= termsList[i].termsCode %>" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"><%= termsList[i].title %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body terms-detail">
+                <%- termsList[i].contents %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary btn-block" data-dismiss="modal">확인</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- JavaScript Libraries -->
+
+
+<script src="/static/v2/lib/jquery/jquery.min.js"></script>
+<script src="/static/v2/lib/jquery/jquery-migrate.min.js"></script>
+<script src="/static/v2/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/v2/lib/wow/wow.min.js"></script>
+<script src="/static/v2/lib/touchSwipe/jquery.touchSwipe.min.js"></script>
+<script src="/static/js/ajax.js"></script>
+<script>
+  $(document).ready(function () {
+
+    var $joinForm = $('#joinForm');
+    $('#nextBtn').click(function (e) {
+      e.preventDefault();
+
+      if ($joinForm.find('[name=email]').val().length == 0) {
+        alert('이메일을 입력해 주세요.');
+        $joinForm.find('[name=email]').focus();
+        return false;
+      }
+      if ($joinForm.find('[name=password]').val().length == 0) {
+        alert('비밀번호를 입력해 주세요.');
+        $joinForm.find('[name=password]').focus();
+        return false;
+      }
+      if ($joinForm.find('[name=passwordCheck]').val().length == 0) {
+        alert('비밀번호를 한번 더 입력해 주세요.');
+        $joinForm.find('[name=passwordCheck]').focus();
+        return false;
+      }
+      if ($joinForm.find('[name=password]').val() != $joinForm.find('[name=passwordCheck]').val()) {
+        alert('비밀번호가 다르게 입력 되었습니다.');
+        $joinForm.find('[name=password]').val('');
+        $joinForm.find('[name=passwordCheck]').val('');
+        $joinForm.find('[name=password]').focus();
+        return false;
+      }
+
+      if ($joinForm.find('[name=terms][requireYn=Y]:checked').length != $joinForm.find('[name=terms][requireYn=Y]').length) {
+        alert('필수 약관에 동의 해 주세요.');
+        return false;
+      }
+
+      var email = $joinForm.find('[name=email]').val();
+      var password = $joinForm.find('[name=password]').val();
+      post('/membership/join/validate', {email: email, password: password}, function (data) {
+        $joinForm.submit();
+      }, null, function (jqXHR, textStatus) {
+        if (jqXHR.responseJSON.field == 'email') {
+          $joinForm.find('[name=email]').val('');
+          $joinForm.find('[name=email]').focus();
+        } else if (jqXHR.responseJSON.field == 'password') {
+          $joinForm.find('[name=password]').val('');
+          $joinForm.find('[name=passwordCheck]').val('');
+          $joinForm.find('[name=password]').focus();
+        }
+        alert(jqXHR.responseJSON.error);
+      });
+    });
+
+    $('#agreeAll').click(function () {
+      $('[name=terms]').prop('checked', $(this).prop('checked'));
+    });
+  });
+</script>
+
+</body>
+
+</html>
