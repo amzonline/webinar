@@ -1,4 +1,4 @@
-var privacy = require('../lib/privacy-utils');
+var privacy = require('../../lib/privacy-utils');
 var fs = require('fs');
 
 fs.readFile('email.txt', function(err, data) {
