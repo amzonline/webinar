@@ -26,7 +26,6 @@ fs.readFile('passwd.txt', function(err, data) {
     }
     else {
         var array = data.toString().split("\n");
-
         for (i in array) {
             var pw = array[i].toString();
             console.log(pw)
@@ -46,41 +45,28 @@ fs.readFile('passwd.txt', function(err, data) {
 
 
 /*
-
 const ses = require('./lib/aws-ses-sendemail');
 ses.sendEmail(["cs@webinar.io"])
-
-
 const bat = require('./routes/batch');
 bat.checkCorpLimit();
-
 return;
-
 var mysql      = require('mysql');
 var config = require('config');
-
-
 var connection = mysql.createConnection(config.get('db'));
 connection.connect();
-
 connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
   if (error) throw error;
   console.log('The solution is: ', results[0].solution);
 });
-
 connection.end();
-
-
 const query = require('./lib/Query');
 var orderNo =1;
 const promise1 = query.findOne('SELECT * FROM TB_ORDER WHERE orderNo = :orderNo', {'orderNo': orderNo});
-
 Promise.all([promise1])
 .then(function (values) {
     console.log("1");
     console.log(values);
     const promise2 = coinone.limit_buy();
-
 })
 .catch(function (e) {
     next({
@@ -97,9 +83,7 @@ const lambda = new aws.Lambda({
   accessKeyId: 'AKIAJZIZRDYECWSD3DBQ',
   secretAccessKey: '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'
 });
-
 const event = { id: "1", name:"Luna"};
-
 lambda.invoke({
   FunctionName: 'exchange',
   Payload: JSON.stringify(event, null, 2) // pass params
@@ -116,12 +100,8 @@ lambda.invoke({
 /*
 var crypto = require('crypto');
 var request = require('request');
-
-
 var ACCESS_TOKEN = '';
 var SECRET_KEY = '';
-
-
 var url = 'https://api.coinone.co.kr/ticker?currency=eth';
 var payload = {
   "access_token": ACCESS_TOKEN,
@@ -134,19 +114,16 @@ var signature = crypto
 .createHmac("sha512", SECRET_KEY.toUpperCase())
 .update(payload)
 .digest('hex');
-
 var headers = {
   'content-type':'application/json',
   'X-COINONE-PAYLOAD': payload,
   'X-COINONE-SIGNATURE': signature
 };
-
 var options = {
   url: url,
   headers: headers,
   body: payload
 };
-
 request.get(options,
     function(error, response, body) {
       console.log(JSON.parse(body).last);
@@ -156,7 +133,6 @@ request.get(options,
 // 3. 노드 스케쥴러 테스트
 /*
 var schedule = require('node-schedule');
-
 var j = schedule.scheduleJob('* * * * * *', function(){
     console.log('The world is going to end today.');
 });

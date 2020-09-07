@@ -10,7 +10,7 @@ target/
 .springBeans
 .gradle/
 gradle/
-
+config
 ### IntelliJ IDEA ###
 .idea
 *.iws

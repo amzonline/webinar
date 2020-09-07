@@ -4,7 +4,6 @@ const router = express.Router();
 const privacy = require('../lib/privacy-utils');
 const query = require('../lib/Query');
 
-// URL 예제 : [GET/POST] /auth/login
 router.route('/login')
     .get(function (req, res, next) {
         res.render('page/auth/login');
@@ -44,7 +43,6 @@ router.route('/login')
         })();
     });
 
-// URL 예제 : [GET] /auth/logout
 router.get('/logout', function (req, res, next) {
     req.session.web = null;
     res.redirect('/');

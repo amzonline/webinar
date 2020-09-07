@@ -37,7 +37,7 @@ let authAdminCheckAndRedirect = function (req, res, redirectUrl = '/admin/') {
     req.session.save();
 
     if (!isAdminLogin(req)) {
-        res.redirect('/auth/login');
+        res.redirect('/admin/auth/login');
         return true;
     } else {
         return false;

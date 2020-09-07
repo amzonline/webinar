@@ -61,12 +61,12 @@ router.post('/identification', async function (req, res, next) {
     const domain = (req.headers["x-forwarded-proto"] || req.protocol) + '://' + req.get('host');
     const isPopup = true;
     const isMobile = false;
-    //const successReturnUrl = domain + config.get('identification').success;
-    //const failureReturnUrl = domain + config.get('identification').fail;
-    //const payload = await identification.encode(isPopup, isMobile, successReturnUrl, failureReturnUrl);
+    const successReturnUrl = domain + config.get('identification').success;
+    const failureReturnUrl = domain + config.get('identification').fail;
+    const payload = await identification.encode(isPopup, isMobile, successReturnUrl, failureReturnUrl);
 
-    //req.session.web.identificationId = payload.requestId;
-    //req.session.save();
+    req.session.web.identificationId = payload.requestId;
+    req.session.save();
 
     res.render('page/member/join/identification.ejs', {
         email: email,
@@ -93,10 +93,10 @@ router.post('/create', async function (req, res, next) {
         return;
     }
 
-    //const payload = await identification.success(identificationData);
+    const payload = await identification.success(identificationData);
 
-    //const requestId = req.body.requestId;
-    //const authType = req.body.authType;
+    const requestId = req.body.requestId;
+    const authType = req.body.authType;
     const name = '';
     const birthDate = '';
     const gender = '';
@@ -107,22 +107,22 @@ router.post('/create', async function (req, res, next) {
     const mobileCo = '';
     const cipherTime = '';
 
-    //if (requestId != req.session.web.identificationId) {
-    //    return next({
-    //        status: 400,
-    //        message: '본인인증 정보가 잘못 되었습니다.'
-    //    });
-    //}
+    if (requestId != req.session.web.identificationId) {
+        return next({
+            status: 400,
+            message: '본인인증 정보가 잘못 되었습니다.'
+        });
+    }
 
-    //const user = await query.findOne('SELECT userNo FROM TB_USER WHERE di = :di', {
-    //    'di': privacy.encode(di)
-    //});
-    //if (user) {
-    //    return next({
-    //        status: 400,
-    //        message: '이미 가입된 고객입니다.'
-    //    });
-    //}
+    const user = await query.findOne('SELECT userNo FROM TB_USER WHERE di = :di', {
+        'di': privacy.encode(di)
+    });
+    if (user) {
+        return next({
+            status: 400,
+            message: '이미 가입된 고객입니다.'
+        });
+    }
 
     const encodePassword = await privacy.password(password);
 

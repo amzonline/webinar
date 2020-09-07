@@ -4,7 +4,6 @@ const auth = require('../lib/auth');
 const router = express.Router();
 const query = require('../lib/Query');
 const numeral = require('numeral');
-const blockchainGateway = require('../lib/aws-lambda-blockchain');
 const moment = require('moment');
 
 const util = require('util');
@@ -12,13 +11,13 @@ const util = require('util');
 // URL 예제 : [GET] /ivsevent
 router.get('/', async function (req, res, next) {
 
-    //if (auth.authMemberCheckAndRedirect(req, res, '/ivsevent/')) {
-    //    return;
-    //}
-
-    if (auth.authAdminCheckAndRedirect(req, res)) {
+    if (auth.authMemberCheckAndRedirect(req, res, '/ivsevent/')) {
         return;
     }
+
+    //if (auth.authAdminCheckAndRedirect(req, res)) {
+    //    return;
+    //}
     const userNo = req.session.web.userNo;
 
     let ivsevent = { };

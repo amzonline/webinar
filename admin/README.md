@@ -12,7 +12,7 @@ $ cd webinar/admin
 $ npm install
 $ npm start
 ````
-
+v
 ## IDE Setup
 ````
 $ export NODE_ENV=dev // dev setting
