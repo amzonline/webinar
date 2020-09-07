@@ -16,15 +16,29 @@ import Parallax from "components/Parallax/Parallax.js";
 // sections for this page
 import SectionBoard from "pages-sections/Components-Sections/SectionBoard.js";
 
-import ReactPlayer from 'react-player/youtube'
-
 import styles from "assets/jss/nextjs-material-kit/pages/components.js";
+
+// import Player from "components/Video/Player.js"
+import Player from "components/Video/IvsPlayer.js"
 
 const useStyles = makeStyles(styles);
 
 export default function Components(props) {
   const classes = useStyles();
   const { ...rest } = props;
+
+  // const videoJsOptions = {
+  //   techOrder: ['AmazonIVS'],
+  //   autoplay: true,
+  //   controls: true,
+  //   sources: [
+  //     {
+  //       src: 'https://fcc3ddae59ed.us-west-2.playback.live-video.net/api/video/v1/us-west-2.893648527354.channel.XFAcAcypUxQm.m3u8',
+  //       type: 'application/x-mpegURL',
+  //     },
+  //   ],
+  // }
+
   return (
     <div>
       <WebinarHeader
@@ -54,12 +68,8 @@ export default function Components(props) {
       </Parallax>
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.playerWrapper}>
-          <ReactPlayer 
-            className={classes.reactPlayer} width='100%' height='100%' loop='true' playing='true'
-            url='https://www.youtube.com/watch?v=OdzaTbaQwTg' 
-          />
-        </div>
+        {/* <Player {...videoJsOptions} /> */}
+        <Player />
         <SectionBoard/>
         {/* <Container maxWidth="xl">          
         </Container> */}
