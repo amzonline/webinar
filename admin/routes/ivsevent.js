@@ -54,6 +54,7 @@ router.get('/history', async function (req, res, next) {
         sql += "    ORDER BY createdDate ASC ";
         const historyList = await query.find(sql);
 
+        console.log('history:' + util.inspect(historyList))
         res.render('page/event/history.ejs', {
             historyCnt : historyCnt,
             historyList: historyList
@@ -146,6 +147,7 @@ router.post('/create', async function (req, res, next) {
     var obsUrl = req.body.obsUrl;
     var playbackKey = req.body.playbackKey;
     var playbackUrl = req.body.playbackUrl;
+    var ondemandUrl = req.body.ondemandUrl;
 
     console.log("body : " + util.inspect(req.body))
 
@@ -161,7 +163,7 @@ router.post('/create', async function (req, res, next) {
             sql = "";
             sql += 'UPDATE TB_EVENT SET eventName = :eventName, type = :type, startDate = :startDate, endDate = :endDate, ' ;
             sql += 'maxCapacity = :maxCapacity, needAuth = :needAuth, siteOpen = :siteOpen, obsUrl = :obsUrl, ';
-            sql += 'playbackKey = :playbackKey, playbackUrl = :playbackUrl, status = :status, ';
+            sql += 'playbackKey = :playbackKey, playbackUrl = :playbackUrl, ondemandUrl = :ondemandUrl, status = :status, ';
             sql += 'updatedAdminNo = :updatedAdminNo, updatedDate = NOW() ';
             sql += 'WHERE eventNo = :eventNo; ';
 
@@ -176,6 +178,7 @@ router.post('/create', async function (req, res, next) {
                 'obsUrl' : obsUrl,
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
+                'ondemandUrl' : ondemandUrl,
                 'status' : 'READY',
                 'updatedAdminNo' : userNo,
                 'eventNo' : eventNo
@@ -186,7 +189,7 @@ router.post('/create', async function (req, res, next) {
             sql += 'INSERT INTO TB_EVENT ( eventName, type, startDate, endDate, maxCapacity, needAuth, ';
             sql += 'siteOpen, obsUrl, playbackKey, playbackUrl, status, createdAdminNo, createdDate ) ';
             sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :needAuth, :siteOpen, ';
-            sql += ':obsUrl, :playbackKey, :playbackUrl, :status, :createdAdminNo, NOW() )';
+            sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :status, :createdAdminNo, NOW() )';
 
             var ret = await query.insert(sql, {
                 'eventName' : eventName,
@@ -199,6 +202,7 @@ router.post('/create', async function (req, res, next) {
                 'obsUrl' : obsUrl,
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
+                'ondemandUrl' : ondemandUrl,
                 'status' : 'READY',
                 'createdAdminNo' : userNo
             });

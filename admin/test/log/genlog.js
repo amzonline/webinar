@@ -37,14 +37,14 @@ function genLog() {
         let date_ob = new Date();
         let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
         //let date = ("0" + date_ob.getDate()).slice(-2);
-        let date = ("0" + Math.random() * (9 - 9) + 9).slice(-2);
+        let date = ("0" + Math.random() * (8 - 8) + 8).slice(-2);
         let year = date_ob.getFullYear();
         //let hours = ("0" + date_ob.getHours()).slice(-2);
-        let hours = ("0" + Math.round(Math.random() * (11 - 9) + 9)).slice(-2);;
+        let hours = ("0" + Math.round(Math.random() * (11 - 9) + 9)).slice(-2);
         //let minutes = ("0" + date_ob.getMinutes()).slice(-2);
-        let minutes = Math.round(Math.random() * (60 - 10) + 10);
+        let minutes = ("0" + Math.round(Math.random() * (59 - 1) + 1)).slice(-2);
         //let seconds = ("0" + date_ob.getSeconds()).slice(-2);
-        let seconds = Math.round(Math.random() * (60 - 10) + 10);
+        let seconds = ("0" + Math.round(Math.random() * (59 - 1) + 1)).slice(-2);
 
         tm= year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 

@@ -102,6 +102,7 @@
                                                 <th scope="col">OBS</th>
                                                 <th scope="col">KEY</th>
                                                 <th scope="col">PLAYBACK</th>
+                                                <th scope="col">ONDEMAND</th>
                                                 <th scope="col">STATUS</th>
                                             </tr>
                                         </thead>
@@ -137,6 +138,7 @@
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].obsUrl %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackKey %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackUrl %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].ondemandUrl %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].status %></a></td>
                                             </tr>
                                             <% } %>
