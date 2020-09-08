@@ -66,7 +66,7 @@ router.post('/identification', async function (req, res, next) {
     const payload = await identification.encode(isPopup, isMobile, successReturnUrl, failureReturnUrl);
 
     req.session.web.identificationId = payload.requestId;
-    req.session.save();
+    req.session.save;
 
     res.render('page/member/join/identification.ejs', {
         email: email,
@@ -169,7 +169,7 @@ router.post('/create', async function (req, res, next) {
 
     req.session.web.userNo = userNo;
     req.session.web.userId = email;
-    req.session.save();
+    req.session.save;
 
     res.redirect('/membership/join/result');
 });

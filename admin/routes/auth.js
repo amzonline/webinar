@@ -38,7 +38,7 @@ router.route('/login')
             req.session.web = {};
             req.session.web.userNo = user.userNo;
             req.session.web.userId = email;
-            req.session.save();
+            req.session.save;
             res.redirect(redirectUrl || '/');
         })();
     });

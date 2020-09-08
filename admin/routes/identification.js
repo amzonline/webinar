@@ -17,7 +17,7 @@ router.post('/request', async function (req, res, next) {
         req.session.web.identificationMap = {};
     }
     req.session.web.identificationMap[code] = payload.requestId;
-    req.session.save();
+    req.session.save;
 
     res.json({
         encodeData: payload.encodeData

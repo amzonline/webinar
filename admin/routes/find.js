@@ -24,7 +24,7 @@ router.post('/id/result', async function (req, res, next) {
     }
 
     req.session.web.identificationMap[code] = null;
-    req.session.save();
+    req.session.save;
 
     const user = await query.findOne('SELECT email FROM TB_USER WHERE di = :di', {
         'di': privacy.encode(di)
@@ -77,7 +77,7 @@ router.post('/password/reset', async function (req, res, next) {
     }
 
     req.session.web.identificationMap[code] = null;
-    req.session.save();
+    req.session.save;
 
     const user = await query.findOne('SELECT userNo FROM TB_USER WHERE di = :di', {
         'di': privacy.encode(di)

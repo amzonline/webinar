@@ -6,7 +6,7 @@ let authMemberCheckAndRedirect = function (req, res, redirectUrl = '/') {
         req.session.web = {};
     }
     req.session.web.redirectUrl = redirectUrl;
-    req.session.save();
+    req.session.save;
 
     if (!isMemberLogin(req)) {
         res.redirect('/auth/login');
@@ -34,7 +34,7 @@ let authAdminCheckAndRedirect = function (req, res, redirectUrl = '/admin/') {
         req.session.admin = {};
     }
     req.session.admin.redirectUrl = redirectUrl;
-    req.session.save();
+    req.session.save;
 
     if (!isAdminLogin(req)) {
         res.redirect('/admin/auth/login');
