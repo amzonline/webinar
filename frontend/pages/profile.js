@@ -1,42 +1,56 @@
+/*eslint-disable*/
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 // @material-ui/icons
 import Camera from "@material-ui/icons/Camera";
 import Palette from "@material-ui/icons/Palette";
+import People from "@material-ui/icons/People";
+import Add from "@material-ui/icons/Add";
 import Favorite from "@material-ui/icons/Favorite";
 // core components
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
-import Button from "components/CustomButtons/Button.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import NavPills from "components/NavPills/NavPills.js";
+import Card from "components/Card/Card.js";
+import CardBody from "components/Card/CardBody.js";
+import CardHeader from "components/Card/CardHeader.js";
+import Badge from "components/Badge/Badge.js";
+import Muted from "components/Typography/Muted.js";
 import Parallax from "components/Parallax/Parallax.js";
+import Clearfix from "components/Clearfix/Clearfix.js";
+import Button from "components/CustomButtons/Button.js";
 
-import profile from "assets/img/faces/christian.jpg";
+import christian from "assets/img/faces/christian.jpg";
+import oluEletu from "assets/img/examples/olu-eletu.jpg";
+import clemOnojeghuo from "assets/img/examples/clem-onojeghuo.jpg";
+import cynthiaDelRio from "assets/img/examples/cynthia-del-rio.jpg";
+import mariyaGeorgieva from "assets/img/examples/mariya-georgieva.jpg";
+import clemOnojegaw from "assets/img/examples/clem-onojegaw.jpg";
+import darrenColeshill from "assets/img/examples/darren-coleshill.jpg";
+import avatar from "assets/img/faces/avatar.jpg";
+import marc from "assets/img/faces/marc.jpg";
+import kendall from "assets/img/faces/kendall.jpg";
+import cardProfile2Square from "assets/img/faces/card-profile2-square.jpg";
 
-import studio1 from "assets/img/examples/studio-1.jpg";
-import studio2 from "assets/img/examples/studio-2.jpg";
-import studio3 from "assets/img/examples/studio-3.jpg";
-import studio4 from "assets/img/examples/studio-4.jpg";
-import studio5 from "assets/img/examples/studio-5.jpg";
-import work1 from "assets/img/examples/olu-eletu.jpg";
-import work2 from "assets/img/examples/clem-onojeghuo.jpg";
-import work3 from "assets/img/examples/cynthia-del-rio.jpg";
-import work4 from "assets/img/examples/mariya-georgieva.jpg";
-import work5 from "assets/img/examples/clem-onojegaw.jpg";
+import profilePageStyle from "assets/jss/nextjs-material-kit-pro/pages/profilePageStyle.js";
 
-import styles from "assets/jss/nextjs-material-kit/pages/profilePage.js";
+const useStyles = makeStyles(profilePageStyle);
 
-const useStyles = makeStyles(styles);
-
-export default function ProfilePage(props) {
+export default function ProfilePage({ ...rest }) {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+  });
   const classes = useStyles();
-  const { ...rest } = props;
   const imageClasses = classNames(
     classes.imgRaised,
     classes.imgRoundedCircle,
@@ -47,169 +61,491 @@ export default function ProfilePage(props) {
     <div>
       <Header
         color="transparent"
-        brand="NextJS Material Kit"
-        rightLinks={<HeaderLinks />}
+        brand="NextJS Material Kit PRO"
+        links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         changeColorOnScroll={{
           height: 200,
-          color: "white"
+          color: "info"
         }}
         {...rest}
       />
-      <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
+      <Parallax
+        image={require("assets/img/examples/city.jpg")}
+        filter="dark"
+        className={classes.parallax}
+      />
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div>
-          <div className={classes.container}>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={6}>
-                <div className={classes.profile}>
-                  <div>
-                    <img src={profile} alt="..." className={imageClasses} />
-                  </div>
-                  <div className={classes.name}>
-                    <h3 className={classes.title}>Christian Louboutin</h3>
-                    <h6>DESIGNER</h6>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-twitter"} />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-instagram"} />
-                    </Button>
-                    <Button justIcon link className={classes.margin5}>
-                      <i className={"fab fa-facebook"} />
-                    </Button>
-                  </div>
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={12} md={6}>
+              <div className={classes.profile}>
+                <div>
+                  <img src={christian} alt="..." className={imageClasses} />
                 </div>
-              </GridItem>
-            </GridContainer>
-            <div className={classes.description}>
-              <p>
-                An artist of considerable range, Chet Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.{" "}
-              </p>
-            </div>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
-                <NavPills
-                  alignCenter
-                  color="primary"
-                  tabs={[
-                    {
-                      tabButton: "Studio",
-                      tabIcon: Camera,
-                      tabContent: (
-                        <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={studio1}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={studio2}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={studio5}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={studio4}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                        </GridContainer>
-                      )
-                    },
-                    {
-                      tabButton: "Work",
-                      tabIcon: Palette,
-                      tabContent: (
-                        <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={work1}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={work2}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={work3}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={work4}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={work5}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                        </GridContainer>
-                      )
-                    },
-                    {
-                      tabButton: "Favorite",
-                      tabIcon: Favorite,
-                      tabContent: (
-                        <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={work4}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={studio3}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={4}>
-                            <img
-                              alt="..."
-                              src={work2}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={work1}
-                              className={navImageClasses}
-                            />
-                            <img
-                              alt="..."
-                              src={studio1}
-                              className={navImageClasses}
-                            />
-                          </GridItem>
-                        </GridContainer>
-                      )
-                    }
-                  ]}
-                />
-              </GridItem>
-            </GridContainer>
+                <div className={classes.name}>
+                  <h3 className={classes.title}>Christian Louboutin</h3>
+                  <h6>DESIGNER</h6>
+                  <Button
+                    justIcon
+                    simple
+                    color="dribbble"
+                    className={classes.margin5}
+                  >
+                    <i className={classes.socials + " fab fa-dribbble"} />
+                  </Button>
+                  <Button
+                    justIcon
+                    simple
+                    color="twitter"
+                    className={classes.margin5}
+                  >
+                    <i className={classes.socials + " fab fa-twitter"} />
+                  </Button>
+                  <Button
+                    justIcon
+                    simple
+                    color="pinterest"
+                    className={classes.margin5}
+                  >
+                    <i className={classes.socials + " fab fa-pinterest"} />
+                  </Button>
+                </div>
+              </div>
+              <div className={classes.follow}>
+                <Tooltip
+                  id="tooltip-top"
+                  title="Follow this user"
+                  placement="top"
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <Button
+                    justIcon
+                    round
+                    color="primary"
+                    className={classes.followButton}
+                  >
+                    <Add className={classes.followIcon} />
+                  </Button>
+                </Tooltip>
+              </div>
+            </GridItem>
+          </GridContainer>
+          <div className={classNames(classes.description, classes.textCenter)}>
+            <p>
+              An artist of considerable range, Chet Faker — the name taken by
+              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
+              and records all of his own music, giving it a warm, intimate feel
+              with a solid groove structure.{" "}
+            </p>
           </div>
+          <div className={classes.profileTabs}>
+            <NavPills
+              alignCenter
+              color="primary"
+              tabs={[
+                {
+                  tabButton: "Work",
+                  tabIcon: Palette,
+                  tabContent: (
+                    <GridContainer>
+                      <GridItem
+                        xs={12}
+                        sm={12}
+                        md={7}
+                        className={classes.gridItem}
+                      >
+                        <h4 className={classes.title}>Latest Collections</h4>
+                        <GridContainer className={classes.collections}>
+                          <GridItem xs={12} sm={12} md={6}>
+                            <Card
+                              background
+                              style={{
+                                backgroundImage: "url(" + mariyaGeorgieva + ")"
+                              }}
+                            >
+                              <CardBody background className={classes.cardBody}>
+                                <Badge
+                                  color="warning"
+                                  className={classes.badge}
+                                >
+                                  Spring 2016
+                                </Badge>
+                                <a href="#pablo">
+                                  <h2 className={classes.cardTitleWhite}>
+                                    Stilleto
+                                  </h2>
+                                </a>
+                              </CardBody>
+                            </Card>
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={6}>
+                            <Card
+                              background
+                              style={{
+                                backgroundImage: "url(" + clemOnojeghuo + ")"
+                              }}
+                            >
+                              <CardBody background className={classes.cardBody}>
+                                <Badge color="info" className={classes.badge}>
+                                  Spring 2016
+                                </Badge>
+                                <a href="#pablo">
+                                  <h2 className={classes.cardTitleWhite}>
+                                    High Heels
+                                  </h2>
+                                </a>
+                              </CardBody>
+                            </Card>
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={6}>
+                            <Card
+                              background
+                              style={{
+                                backgroundImage: "url(" + oluEletu + ")"
+                              }}
+                            >
+                              <CardBody background className={classes.cardBody}>
+                                <Badge color="danger" className={classes.badge}>
+                                  Summer 2016
+                                </Badge>
+                                <a href="#pablo">
+                                  <h2 className={classes.cardTitleWhite}>
+                                    Flats
+                                  </h2>
+                                </a>
+                              </CardBody>
+                            </Card>
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={6}>
+                            <Card
+                              background
+                              style={{
+                                backgroundImage: "url(" + darrenColeshill + ")"
+                              }}
+                            >
+                              <CardBody background className={classes.cardBody}>
+                                <Badge
+                                  color="success"
+                                  className={classes.badge}
+                                >
+                                  Winter 2016
+                                </Badge>
+                                <a href="#pablo">
+                                  <h2 className={classes.cardTitleWhite}>
+                                    Men{"'"}s Sneakers
+                                  </h2>
+                                </a>
+                              </CardBody>
+                            </Card>
+                          </GridItem>
+                        </GridContainer>
+                      </GridItem>
+                      <GridItem
+                        xs={12}
+                        sm={12}
+                        md={2}
+                        className={classes.gridItem}
+                      >
+                        <h4 className={classes.title}>Stats</h4>
+                        <ul className={classes.listUnstyled}>
+                          <li>
+                            <b>60</b> Products
+                          </li>
+                          <li>
+                            <b>4</b> Collections
+                          </li>
+                          <li>
+                            <b>331</b> Influencers
+                          </li>
+                          <li>
+                            <b>1.2K</b> Likes
+                          </li>
+                        </ul>
+                        <hr />
+                        <h4 className={classes.title}>About this work</h4>
+                        <p className={classes.description}>
+                          French luxury footwear and fashion. The footwear has
+                          incorporated shiny, red-lacquered soles that have
+                          become his signature.
+                        </p>
+                        <hr />
+                        <h4 className={classes.title}>Focus</h4>
+                        <Badge color="primary">Footwear</Badge>
+                        <Badge color="rose">Luxury</Badge>
+                      </GridItem>
+                    </GridContainer>
+                  )
+                },
+                {
+                  tabButton: "Connections",
+                  tabIcon: People,
+                  tabContent: (
+                    <div>
+                      <GridContainer justify="center">
+                        <GridItem
+                          xs={12}
+                          sm={12}
+                          md={5}
+                          className={classes.gridItem}
+                        >
+                          <Card profile plain className={classes.card}>
+                            <GridContainer>
+                              <GridItem xs={12} sm={12} md={5}>
+                                <CardHeader image plain>
+                                  <a href="#pablo">
+                                    <img src={avatar} alt="..." />
+                                  </a>
+                                  <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                      backgroundImage: "url(" + avatar + ")",
+                                      opacity: "1"
+                                    }}
+                                  />
+                                </CardHeader>
+                              </GridItem>
+                              <GridItem xs={12} sm={12} md={7}>
+                                <CardBody plain>
+                                  <h4 className={classes.cardTitle}>
+                                    Gigi Hadid
+                                  </h4>
+                                  <Muted>
+                                    <h6>MODEL</h6>
+                                  </Muted>
+                                  <p className={classes.description}>
+                                    Don{"'"}t be scared of the truth because we
+                                    need to restart the human foundation in
+                                    truth...
+                                  </p>
+                                </CardBody>
+                              </GridItem>
+                            </GridContainer>
+                          </Card>
+                        </GridItem>
+                        <GridItem
+                          xs={12}
+                          sm={12}
+                          md={5}
+                          className={classes.gridItem}
+                        >
+                          <Card profile plain className={classes.card}>
+                            <GridContainer>
+                              <GridItem xs={12} sm={12} md={5}>
+                                <CardHeader image plain>
+                                  <a href="#pablo">
+                                    <img src={marc} alt="..." />
+                                  </a>
+                                  <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                      backgroundImage: "url(" + marc + ")",
+                                      opacity: "1"
+                                    }}
+                                  />
+                                </CardHeader>
+                              </GridItem>
+                              <GridItem xs={12} sm={12} md={7}>
+                                <CardBody plain>
+                                  <h4 className={classes.cardTitle}>
+                                    Marc Jacobs
+                                  </h4>
+                                  <Muted>
+                                    <h6>DESIGNER</h6>
+                                  </Muted>
+                                  <p className={classes.description}>
+                                    Don{"'"}t be scared of the truth because we
+                                    need to restart the human foundation in
+                                    truth...
+                                  </p>
+                                </CardBody>
+                              </GridItem>
+                            </GridContainer>
+                          </Card>
+                        </GridItem>
+                      </GridContainer>
+                      <GridContainer justify="center">
+                        <GridItem
+                          xs={12}
+                          sm={12}
+                          md={5}
+                          className={classes.gridItem}
+                        >
+                          <Card profile plain className={classes.card}>
+                            <GridContainer>
+                              <GridItem xs={12} sm={12} md={5}>
+                                <CardHeader image plain>
+                                  <a href="#pablo">
+                                    <img src={kendall} alt="..." />
+                                  </a>
+                                  <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                      backgroundImage: "url(" + kendall + ")",
+                                      opacity: "1"
+                                    }}
+                                  />
+                                </CardHeader>
+                              </GridItem>
+                              <GridItem xs={12} sm={12} md={7}>
+                                <CardBody plain>
+                                  <h4 className={classes.cardTitle}>
+                                    Kendall Jenner
+                                  </h4>
+                                  <Muted>
+                                    <h6>MODEL</h6>
+                                  </Muted>
+                                  <p className={classes.description}>
+                                    I love you like Kanye loves Kanye. Don
+                                    {"'"}t be scared of the truth.
+                                  </p>
+                                </CardBody>
+                              </GridItem>
+                            </GridContainer>
+                          </Card>
+                        </GridItem>
+                        <GridItem
+                          xs={12}
+                          sm={12}
+                          md={5}
+                          className={classes.gridItem}
+                        >
+                          <Card profile plain className={classes.card}>
+                            <GridContainer>
+                              <GridItem xs={12} sm={12} md={5}>
+                                <CardHeader image plain>
+                                  <a href="#pablo">
+                                    <img src={cardProfile2Square} alt="..." />
+                                  </a>
+                                  <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                      backgroundImage:
+                                        "url(" + cardProfile2Square + ")",
+                                      opacity: "1"
+                                    }}
+                                  />
+                                </CardHeader>
+                              </GridItem>
+                              <GridItem xs={12} sm={12} md={7}>
+                                <CardBody plain>
+                                  <h4 className={classes.cardTitle}>
+                                    George West
+                                  </h4>
+                                  <Muted>
+                                    <h6>MODEL/DJ</h6>
+                                  </Muted>
+                                  <p className={classes.description}>
+                                    I love you like Kanye loves Kanye.
+                                  </p>
+                                </CardBody>
+                              </GridItem>
+                            </GridContainer>
+                          </Card>
+                        </GridItem>
+                      </GridContainer>
+                    </div>
+                  )
+                },
+                {
+                  tabButton: "Media",
+                  tabIcon: Camera,
+                  tabContent: (
+                    <GridContainer justify="center">
+                      <GridItem xs={12} sm={12} md={3}>
+                        <img
+                          alt="..."
+                          src={mariyaGeorgieva}
+                          className={navImageClasses}
+                        />
+                        <img
+                          alt="..."
+                          src={clemOnojegaw}
+                          className={navImageClasses}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={3}>
+                        <img
+                          alt="..."
+                          src={clemOnojeghuo}
+                          className={navImageClasses}
+                        />
+                        <img
+                          alt="..."
+                          src={oluEletu}
+                          className={navImageClasses}
+                        />
+                        <img
+                          alt="..."
+                          src={cynthiaDelRio}
+                          className={navImageClasses}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                  )
+                }
+              ]}
+            />
+          </div>
+          <Clearfix />
         </div>
       </div>
-      <Footer />
+      <Footer
+        content={
+          <div>
+            <div className={classes.left}>
+              <List className={classes.list}>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://www.creative-tim.com/?ref=njsmkp-profile"
+                    target="_blank"
+                    className={classes.block}
+                  >
+                    Creative Tim
+                  </a>
+                </ListItem>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://www.creative-tim.com/presentation?ref=njsmkp-profile"
+                    target="_blank"
+                    className={classes.block}
+                  >
+                    About us
+                  </a>
+                </ListItem>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="http://blog.creative-tim.com/?ref=njsmkp-profile"
+                    className={classes.block}
+                  >
+                    Blog
+                  </a>
+                </ListItem>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://www.creative-tim.com/license?ref=njsmkp-profile"
+                    target="_blank"
+                    className={classes.block}
+                  >
+                    Licenses
+                  </a>
+                </ListItem>
+              </List>
+            </div>
+            <div className={classes.right}>
+              &copy; {1900 + new Date().getYear()} , made with{" "}
+              <Favorite className={classes.icon} /> by{" "}
+              <a
+                href="https://www.creative-tim.com?ref=njsmkp-profile"
+                target="_blank"
+              >
+                Creative Tim
+              </a>{" "}
+              for a better web.
+            </div>
+          </div>
+        }
+      />
     </div>
   );
 }

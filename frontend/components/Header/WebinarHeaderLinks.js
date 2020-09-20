@@ -19,7 +19,7 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 import Typography from '@material-ui/core/Typography';
 
-import styles from "assets/jss/nextjs-material-kit/components/headerLinksStyle.js";
+import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 
