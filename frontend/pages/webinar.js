@@ -1,89 +1,115 @@
+/*eslint-disable*/
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-// react components for routing our app without refresh
-import Link from "next/link";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 // core components
-import WebinarHeader from "components/Header/WebinarHeader.js";
-import WebinarHeaderLinks from "components/Header/WebinarHeaderLinks.js";
+import Header from "components/Header/WebinarXHeader.js";
+import HeaderLinks from "components/Header/WebinarXHeaderLinks.js";
+import Parallax from "components/Parallax/Parallax.js";
 import Footer from "components/Footer/Footer.js";
+import WebinarFooter from "components/Footer/WebinarFooter.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import Parallax from "components/Parallax/Parallax.js";
-// sections for this page
-import SectionBoard from "pages-sections/Components-Sections/SectionBoard.js";
+import Button from "components/CustomButtons/Button.js";
 
-import styles from "assets/jss/nextjs-material-kit/pages/components.js";
-
-// import Player from "components/Video/Player.js"
 import Player from "components/Video/IvsPlayer.js"
 
-const useStyles = makeStyles(styles);
+// sections for this page
+import SectionDescription from "pages-sections/presentation-page/SectionDescription.js";
+import SectionComponents from "pages-sections/presentation-page/SectionComponents.js";
+import SectionCards from "pages-sections/presentation-page/SectionCards.js";
+import SectionContent from "pages-sections/presentation-page/SectionContent.js";
+import SectionSections from "pages-sections/presentation-page/SectionSections.js";
+import SectionExamples from "pages-sections/presentation-page/SectionExamples.js";
+import SectionFreeDemo from "pages-sections/presentation-page/SectionFreeDemo.js";
+import SectionOverview from "pages-sections/presentation-page/SectionOverview.js";
+import SectionPricing from "pages-sections/presentation-page/SectionPricing.js";
 
-export default function Components(props) {
+import SectionBoard from "pages-sections/components/SectionBoard.js";
+import SectionWebinarComments from "pages-sections/components/SectionWebinarComments.js";
+
+import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/webinarXStyle.js";
+
+const useStyles = makeStyles(presentationStyle);
+
+export default function PresentationPage() {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+  });
   const classes = useStyles();
-  const { ...rest } = props;
-
-  // const videoJsOptions = {
-  //   techOrder: ['AmazonIVS'],
-  //   autoplay: true,
-  //   controls: true,
-  //   sources: [
-  //     {
-  //       src: 'https://fcc3ddae59ed.us-west-2.playback.live-video.net/api/video/v1/us-west-2.893648527354.channel.XFAcAcypUxQm.m3u8',
-  //       type: 'application/x-mpegURL',
-  //     },
-  //   ],
-  // }
-
   return (
     <div>
-      <WebinarHeader
+      <Header
         brand="AWS"
-        rightLinks={<WebinarHeaderLinks />}
+        links={<HeaderLinks dropdownHoverColor="info" />}
         fixed
         color="transparent"
         changeColorOnScroll={{
           height: 400,
-          color: "white"
+          color: "dark"
         }}
-        {...rest}
       />
-      <Parallax image={require("assets/img/builders-bg.png")}>
-        <div className={classes.container}>
-          <GridContainer>
-            <GridItem>
-              <div className={classes.brand}>
-                <h1 className={classes.title}>AWS Builders Livestream</h1>
-                <h3 className={classes.subtitle}>
-                  AWS를 빠르게 시작하는 방법
-                </h3>
-              </div>
-            </GridItem>
-          </GridContainer>
-        </div>
-      </Parallax>
+      <Parallax
+        image={require("assets/img/builders-bg.png")}
+        className={classes.parallax}
+      >
 
+      </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
-        {/* <Player {...videoJsOptions} /> */}
         <Player />
-        <SectionBoard/>
-        {/* <Container maxWidth="xl">          
-        </Container> */}
-        {/* <GridItem md={12} className={classes.textCenter}>
-          <Link href="/login">
-            <a className={classes.link}>
-              <Button color="primary" size="lg" simple>
-                View Login Page
-              </Button>
-            </a>
-          </Link>
-        </GridItem> */}
+        <SectionWebinarComments/>
       </div>
-      <Footer />
+      <Footer
+        theme="white"
+        content={
+          <div>
+            <div className={classes.left}>
+              <a
+                href="https://aws.amazon.com/"
+                target="_blank"
+                className={classes.footerBrand}
+              >
+                Amazon Web Services
+              </a>
+            </div>
+            <div className={classes.rightLinks}>
+              <List className={classes.list}>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://aws.amazon.com/"
+                    target="_blank"
+                    className={classes.block}
+                  >
+                    About us
+                  </a>
+                </ListItem>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://aws.amazon.com/"
+                    className={classes.block}
+                  >
+                    Blog
+                  </a>
+                </ListItem>
+                <ListItem className={classes.inlineBlock}>
+                  <a
+                    href="https://aws.amazon.com/"
+                    target="_blank"
+                    className={classes.block}
+                  >
+                    Licenses
+                  </a>
+                </ListItem>
+              </List>
+            </div>
+          </div>
+        }
+      />
     </div>
   );
 }

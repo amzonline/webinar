@@ -1,73 +1,55 @@
-/*eslint-disable*/
+/* eslint-disable */
 import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-// material-ui core components
-import { List, ListItem } from "@material-ui/core";
+// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 // @material-ui/icons
 import Favorite from "@material-ui/icons/Favorite";
 
-import styles from "assets/jss/nextjs-material-kit/components/footerStyle.js";
+import styles from "assets/jss/nextjs-material-kit-pro/components/footerStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function Footer(props) {
+  const { children, content, theme, big, className } = props;
   const classes = useStyles();
-  const { whiteFont } = props;
+  const themeType =
+    theme === "transparent" || theme == undefined ? false : true;
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes[theme]]: themeType,
+    [classes.big]: big || children !== undefined,
+    [className]: className !== undefined
   });
   const aClasses = classNames({
-    [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.a]: true
   });
+
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
-        <div className={classes.left}>
-          <List className={classes.list}>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://aws.amazon.com/"
-                className={classes.block}
-                target="_blank"
-              >
-                Amazon Web Services Home
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://aws.amazon.com/privacy"
-                className={classes.block}
-                target="_blank"
-              >
-                Privacy Policy
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://aws.amazon.com/terms/"
-                className={classes.block}
-                target="_blank"
-              >
-                Site Terms
-              </a>
-            </ListItem>
-          </List>
-        </div>
-        <div className={classes.right}>
-          &copy; 2020, Amazon Web Services, Inc. or its Affiliates. All rights reserved.
-        </div>
+        {children !== undefined ? (
+          <div>
+            <div className={classes.content}>{children}</div>
+            <hr />
+          </div>
+        ) : (
+          " "
+        )}
+        {content}
+        <div className={classes.clearFix} />
       </div>
     </footer>
   );
 }
 
 Footer.propTypes = {
-  whiteFont: PropTypes.bool
+  theme: PropTypes.oneOf(["dark", "white", "transparent"]),
+  big: PropTypes.bool,
+  content: PropTypes.node.isRequired
 };
