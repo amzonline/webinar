@@ -75,7 +75,12 @@ export default function LoginPage() {
               className={classNames(classes.mlAuto, classes.mrAuto)}
             >
               <Card>
-                <form className={classes.form}>
+                <div className={classes.textCenter}>
+                  <Button simple color="primary" size="lg" href="/api/auth/signin">
+                    시작하기
+                  </Button>
+                </div>
+                {/* <form className={classes.form}>
                   <CardBody signup>
                     <CustomInput
                       id="email"
@@ -98,7 +103,7 @@ export default function LoginPage() {
                       시작하기
                     </Button>
                   </div>
-                </form>
+                </form> */}
               </Card>
             </GridItem>
           </GridContainer>
