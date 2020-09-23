@@ -5,6 +5,7 @@ import { signIn, signOut, useSession } from 'next-auth/client'
 // import Header from "components/Header/WebinarXHeader.js";
 import Webinar from "pages/webinar";
 import LoginPage from "pages/webinar-login";
+// import SignIn from "pages/auth/signin";
 
 export default function Page() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Page() {
 
   return <>
     {session && <Webinar />}
-    {!session && <LoginPage />}
+    {!session && <LoginPage  />}
   </>
 }
 

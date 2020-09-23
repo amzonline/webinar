@@ -26,12 +26,14 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 
 import headersStyle from "assets/jss/nextjs-material-kit-pro/pages/sectionsSections/headersStyle.js";
 
+import { providers, signIn } from 'next-auth/client'
+
 import backgroundImage from "assets/img/summit-background.png";
 import office2 from "assets/img/examples/office2.jpg";
 
 const useStyles = makeStyles(headersStyle);
 
-export default function LoginPage() {
+export default function LoginPage(providers) {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
@@ -45,6 +47,7 @@ export default function LoginPage() {
     slidesToScroll: 1,
     autoplay: false
   };
+  console.log(providers);
   return (
     <div>
       <div
@@ -76,9 +79,10 @@ export default function LoginPage() {
             >
               <Card>
                 <div className={classes.textCenter}>
-                  <Button simple color="primary" size="lg" href="/api/auth/signin">
+                  <Button simple color="primary" size="lg" onClick={signIn}>
                     시작하기
                   </Button>
+                  
                 </div>
                 {/* <form className={classes.form}>
                   <CardBody signup>
@@ -111,4 +115,10 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+LoginPage.getInitialProps = async (context) => {
+  return {
+    providers: await providers(context)
+  }
 }
