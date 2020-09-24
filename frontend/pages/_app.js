@@ -66,11 +66,17 @@ import "assets/scss/nextjs-material-kit-pro.scss?v=1.1.0";
 //   }
 // }
 
-export default function App({ Component, pageProps }) {
-  return (
-    <Provider session={pageProps.session}>
-      <Component {...pageProps} />
-    </Provider>
-  )
+// export default function App({ Component, pageProps }) {
+//   return (
+//     <Provider session={pageProps.session}>
+//       <Component {...pageProps} />
+//     </Provider>
+//   )
+// }
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
 }
+
+export default MyApp
 
