@@ -20,24 +20,25 @@ export default function Page() {
     checkSession();
   });
 
+  function moveToLogin() {
+    router.push("/webinar-login");
+  }
+
   async function checkSession() {
     try {
       const session = await Auth.currentSession();
       if (session.isValid()) {
         console.log('token: ' + session.accessToken.jwtToken);
         router.push("/webinar");
+      } else {
+        moveToLogin();
       }
-      else {
-        console.log('invalid session');
-        router.push("/webinar-login");
-      }
-        
     } catch (error) {
-      console.log('error signing in', error);
-      alert('!!!! ' + error.message);
+      console.log(error.message);
+      moveToLogin();
     }
+    
   }
-
 
   return <>
     Loading...
