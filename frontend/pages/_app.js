@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider } from 'next-auth/client'
+// import { Provider } from 'next-auth/client'
 
 // import ReactDOM from "react-dom";
 // import App from "next/app";

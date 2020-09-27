@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -20,9 +20,13 @@ import Media from "components/Media/Media.js";
 import Button from "components/CustomButtons/Button.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 
-import profile4 from "assets/img/faces/card-profile4-square.jpg";
-import profile1 from "assets/img/faces/card-profile1-square.jpg";
-import profile6 from "assets/img/faces/card-profile6-square.jpg";
+import BoardService from "../../services/BoardService";
+import axios from "axios";
+
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../../core/aws-exports';
+Amplify.configure(awsconfig);
+
 
 import sectionCommentsStyle from "assets/jss/nextjs-material-kit-pro/pages/blogPostSections/sectionCommentsStyle.js";
 
@@ -60,6 +64,51 @@ const comment = `Apache Kafka API를 사용하여 Apache Kafka에서 데이터�
 
 export default function SectionWebinarComments() {
   const classes = useStyles();
+  const dummy1 = [
+    { uid: "a1", title: "dummy 1"},
+    { uid: "a2", title: "dummy 2"}
+  ];
+
+  const dummy2 = [
+    { uid: "a3", title: "dummy 3"},
+    { uid: "a4", title: "dummy 4"}
+  ];
+
+  const [data, setData] = useState({list:[]});
+
+  const [contents, setContents] = useState([]);
+
+  const [token, setToken] = useState("-");
+
+  
+  useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   document.body.scrollTop = 0;
+
+  //   let completed = false;
+    
+    loadBoards();
+  
+  //   return () => {
+  //     completed = true;
+  //   };
+  }, []);
+  // });
+
+  async function loadBoards() {
+    try {
+      const response = await BoardService.getAll("f8bceb87-e8c7-4759-92d5-94106debd54e");
+      console.log("******************");
+      console.log(response.data.list);
+      setContents(response.data.list);
+      console.log("******************");
+      
+    } catch (error) {
+      console.log(error.message);
+    }
+  }  
+
+  
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
@@ -67,42 +116,76 @@ export default function SectionWebinarComments() {
           <div>
             <h3 className={classes.title}>질문 목록</h3>
             <List className={classes.listRoot}>
-              <ListItem alignItems="flex-start">
-                <CommentMedia
-                  avatar={'Q'}
-                  title={
-                    <span>
-                      Amazon Interactive Video Service란 무엇입니까?
-                    </span>                      
-                  }
-                  footer={
-                    <div>
-                      <Tooltip
-                        id="tooltip-tina"
-                        title="Reply to comment"
-                        placement="top"
-                        classes={{ tooltip: classes.tooltip }}
-                      >
+              {contents.map( item => (
+                // <div key={item.uid}>{item.title}</div>
+
+
+                <ListItem alignItems="flex-start" key={item.uid}>
+                  <CommentMedia
+                    avatar={'Q'}
+                    title={
+                      <span>
+                        {item.title}
+                      </span>                      
+                    }
+                    footer={
+                      <div>
+                        <Tooltip
+                          id="tooltip-tina"
+                          title="Reply to comment"
+                          placement="top"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <Button
+                            color="primary"
+                            simple
+                            className={classes.footerButtons}
+                          >
+                            <Reply className={classes.footerIcons} /> Reply
+                          </Button>
+                        </Tooltip>
+      
                         <Button
-                          color="primary"
+                          color="danger"
                           simple
                           className={classes.footerButtons}
                         >
-                          <Reply className={classes.footerIcons} /> Reply
+                          <Favorite className={classes.footerIcons} /> 243
                         </Button>
-                      </Tooltip>
-    
-                      <Button
-                        color="danger"
-                        simple
-                        className={classes.footerButtons}
-                      >
-                        <Favorite className={classes.footerIcons} /> 243
-                      </Button>
-                    </div>
-                  }
-                />
-              </ListItem>
+                      </div>
+                    }
+                    innerMedias={
+                      item.reply && item.reply.map(comment => (
+                        <CommentMedia
+                          key={Date.now()}
+                          avatar={'A'}
+                          body={
+                            <span className={classes.color555}>
+                              <p>
+                              {comment.title}
+                              </p>
+                            </span>
+                          }
+                        />
+                      ))
+                    // //   []
+                    //   // item.reply.map(comment => (
+
+                      
+                    //   //   <div key={comment.uid}>{comment.title}</div>
+                    //   // [
+                    //   // {}
+                      
+                    //   // ]
+                    //   // ))
+                    }
+                  />
+                </ListItem>
+
+              ))}
+
+
+{/*               
               <ListItem alignItems="flex-start">
                 <CommentMedia
                   avatar={'Q'}
@@ -187,8 +270,8 @@ export default function SectionWebinarComments() {
                     </div>
                   }
                 />
-              </ListItem>
-              <ListItem alignItems="flex-start">
+              </ListItem> */}
+              {/* <ListItem alignItems="flex-start">
                 <CommentMedia
                   avatar={'Q'}
                   title={
@@ -295,7 +378,7 @@ export default function SectionWebinarComments() {
                     </div>
                   }
                 />
-              </ListItem>
+              </ListItem> */}
             </List>
           </div>
           <h3 className={classes.title}>질문하기</h3>

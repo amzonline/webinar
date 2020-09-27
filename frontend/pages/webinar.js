@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { Component, useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -14,31 +14,52 @@ import Footer from "components/Footer/Footer.js";
 
 import Player from "components/Video/IvsPlayer.js"
 
-import { ProtectRoute } from "contexts/auth"
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../core/aws-exports';
+Amplify.configure(awsconfig);
+
+import BoardService from "../services/BoardService";
+
 
 import SectionWebinarComments from "pages-sections/components/SectionWebinarComments.js";
 
 import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/webinarXStyle.js";
 
 import { useRouter } from 'next/router';
-import { signIn, signOut, useSession } from 'next-auth/client';
+
+
+
 
 const useStyles = makeStyles(presentationStyle);
 
 function Webinar() {
-  React.useEffect(() => {
+  const classes = useStyles();
+  const router = useRouter();
+  
+  useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-
+    
   });
   
-  const classes = useStyles();
-  const [ session, loading ] = useSession();
-  const router = useRouter();
+  async function checkSession() {
+    try {
+      const session = await Auth.currentSession();
+      if (session.isValid()) {
+        console.log('token: ' + session.accessToken.jwtToken);
+        accessToken = session.accessToken.jwtToken;
+        setToken(accessToken);
+      } else {
+        moveToLogin();
+      }
+    } catch (error) {
+      console.log(error.message);
+      moveToLogin();
+    }
+  }
 
   return (
     <>
-    {session && <>
       <div>
         <Header
           brand="AWS"
@@ -107,7 +128,7 @@ function Webinar() {
           }
         />
       </div>
-      </>}
+    
     </>
   );
 }

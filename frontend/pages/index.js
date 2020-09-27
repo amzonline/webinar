@@ -8,7 +8,7 @@ import LoginPage from "pages/webinar-login";
 // import SignIn from "pages/auth/signin";
 
 import Amplify, { Auth } from "aws-amplify";
-import awsExports from "./aws-exports";
+import awsExports from "../core/aws-exports";
 Amplify.configure(awsExports);
 
 

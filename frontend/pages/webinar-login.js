@@ -26,7 +26,7 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsconfig from '../core/aws-exports';
 Amplify.configure(awsconfig);
 // Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
