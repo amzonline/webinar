@@ -11,6 +11,8 @@ import Header from "components/Header/WebinarXHeader.js";
 import HeaderLinks from "components/Header/WebinarXHeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 import Footer from "components/Footer/Footer.js";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
+
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../core/aws-exports';
@@ -67,7 +69,7 @@ function Webinar(eventId) {
           fixed
           color="transparent"
           changeColorOnScroll={{
-            height: 200,
+            height: 100,
             color: "dark"
           }}
         />
@@ -79,6 +81,15 @@ function Webinar(eventId) {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           {/* <Player /> */}
+          <SnackbarContent
+            message={
+                <span>
+                  <b>참여자의 질문에 실시간 답변이 가능합니다.</b> 
+                </span>
+            }
+            color="warning"
+            icon="info_outline"
+          />
           <SectionWebinarAdminComments/>
         </div>
         <Footer
