@@ -33,12 +33,8 @@ Amplify.configure(awsconfig);
 import { connect } from 'react-redux';
 import { RegisterEventId } from '../../core/redux/event.action';
 import { selectEventId } from '../../core/redux/event.selectors';
+import Quote from "components/Typography/Quote.js";
 
-
-
-import sectionCommentsStyle from "assets/jss/nextjs-material-kit-pro/pages/blogPostSections/sectionCommentsStyle.js";
-
-// const useStyles = makeStyles(sectionCommentsStyle);
 
 const useStyles = makeStyles((sectionCommentsStyle) => ({
   root: {
@@ -51,7 +47,7 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
     backgroundColor: sectionCommentsStyle.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 300,
+    maxHeight: 400,
   },
   paper: {
     width: '100%',
@@ -67,49 +63,45 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
 }));
 
 
-function SectionWebinarComments(eventId) {
+function SectionWebinarAdminComments(eventId) {
   const classes = useStyles();
   const router = useRouter();
 
-  console.log("------------------------");
+  const defaultReply = {"uid": "", "content": "질문을 선택해주세요.."};
+
   const event_id = eventId.eventId.event_id;
-
-  const dummy1 = [
-    { uid: "a1", title: "dummy 1"},
-    { uid: "a2", title: "dummy 2"}
-  ];
-
-  const dummy2 = [
-    { uid: "a3", title: "dummy 3"},
-    { uid: "a4", title: "dummy 4"}
-  ];
 
   const [data, setData] = useState({list:[]});
 
   const [contents, setContents] = useState([]);
+  const [reply, setReply] = useState(defaultReply);
 
   const { register, handleSubmit, setValue } = useForm();
 
   const onSubmit = data => {
     console.log(data);
+    console.log(data.content + "<- " + data.content.length);
 
-    submitQuestion(data.content);
+    if (reply.uid === "") {
+      alert("질문을 선택해주세요.");
+    } else if (data.content.length < 5) {
+      alert("답변을 좀 더 길게 달아주세요.");
+    } else {
+      submitReply(data.content);
+    }
+    
   };
 
-  async function submitQuestion(content) {
+  async function submitReply(content) {
     try {
       const session = await Auth.currentSession();
       if (session.isValid()) {
         console.log('token: ' + session.idToken.jwtToken);
         const idToken = session.idToken.jwtToken;
 
-        if (content.length < 10) {
-          alert("질문 길이가 너무 짧습니다.");
-          return;
-        }
-
-        const response = await BoardService.insertItem(idToken, event_id, "-", content, "Y");
+        const response = await BoardService.insertReply(idToken, event_id, reply.uid, content);
         setValue("content", "");
+        setReply(defaultReply);
         loadBoards();
       } else {
         moveToLogin();
@@ -145,12 +137,15 @@ function SectionWebinarComments(eventId) {
       console.log("****************** loadBoards called");
       console.log(response.data.list);
       setContents(response.data.list);
-      console.log("******************");
       
     } catch (error) {
       console.log(error.message);
     }
-  }  
+  }
+
+  function selectQuestion(uid, content) {
+    setReply({"uid": uid, "content": content});
+  }
 
   
   return (
@@ -161,9 +156,6 @@ function SectionWebinarComments(eventId) {
             <h3 className={classes.title}>질문 목록</h3>
             <List className={classes.listRoot}>
               {contents.map( item => (
-                // <div key={item.uid}>{item.title}</div>
-
-
                 <ListItem alignItems="flex-start" key={item.uid}>
                   <CommentMedia
                     avatar={'Q'}
@@ -171,6 +163,25 @@ function SectionWebinarComments(eventId) {
                       <span>
                         {item.content}
                       </span>                      
+                    }
+                    footer={
+                      <div>
+                        <Tooltip
+                          id="tooltip-tina"
+                          title="Reply to comment"
+                          placement="top"
+                          classes={{ tooltip: classes.tooltip }}
+                        >
+                          <Button
+                            color="primary"
+                            simple
+                            className={classes.footerButtons}
+                            onClick={() => { selectQuestion(item.uid, item.content) }}
+                          >
+                            <Reply className={classes.footerIcons} /> Reply
+                          </Button>
+                        </Tooltip>
+                      </div>
                     }
                     innerMedias={
                       item.reply && item.reply.map(comment => (
@@ -193,14 +204,16 @@ function SectionWebinarComments(eventId) {
               ))}
             </List>
           </div>
-          <h3 className={classes.title}>질문하기</h3>
-          
+          <h3 className={classes.title}>답변하기</h3>
+          <Quote
+            author={reply.content}
+          />
           <form onSubmit={handleSubmit(onSubmit)}>
             <CommentMedia
-              avatar={'Q'}
+              avatar={'A'}
               body={
                 <CustomInput
-                  labelText="질문을 남겨주세요..."
+                  labelText="답변을 남겨주세요..."
                   id="content"
                   formControlProps={{
                     fullWidth: true
@@ -209,7 +222,7 @@ function SectionWebinarComments(eventId) {
                     name: "content",
                     inputRef: register(),
                     multiline: true,
-                    rows: 3
+                    rows: 6
                   }}
                 />
               }
@@ -235,4 +248,4 @@ const mapDispatchToProps = dispatch => ({
   RegisterEventId: eventId => dispatch(RegisterEventId(eventId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SectionWebinarComments);
+export default connect(mapStateToProps, mapDispatchToProps)(SectionWebinarAdminComments);

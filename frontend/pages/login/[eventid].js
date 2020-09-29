@@ -1,5 +1,7 @@
 /*eslint-disable*/
-import React, { useState, useRef, createRef } from "react";
+import React, { useState, useEffect, createRef } from "react";
+import { useRouter } from 'next/router'
+
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -9,8 +11,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-import Email from "@material-ui/icons/Email";
+import AccountBox from "@material-ui/icons/AccountBox";
 import Event from "@material-ui/icons/Event";
+import CastForEducationIcon from '@material-ui/icons/CastForEducation';
 import Favorite from "@material-ui/icons/Favorite";
 import Face from "@material-ui/icons/Face";
 // core components
@@ -26,8 +29,12 @@ import CardHeader from "components/Card/CardHeader.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 
+import { connect } from 'react-redux';
+import { RegisterEventId } from '../../core/redux/event.action';
+import { selectEventId } from '../../core/redux/event.selectors';
+
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from '../core/aws-exports';
+import awsconfig from '../../core/aws-exports';
 Amplify.configure(awsconfig);
 // Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
@@ -47,14 +54,19 @@ function makeTempPassword(key) {
   return '!DUMMY@' + md5(key);
 }
 
-export default function LoginPage() {
+const LoginPage = ({ RegisterEventId }) => {
+
+  const router = useRouter()
+  const { eventid } = router.query;
+  const { register, handleSubmit, setValue } = useForm();
   
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-  });
 
-  const { register, handleSubmit, watch, errors } = useForm();
+    setValue("event_id", eventid);
+    RegisterEventId(eventid);
+  });
 
   async function cognitoSignIn(email) {
     try {
@@ -63,6 +75,9 @@ export default function LoginPage() {
       const session = cognitoUser.getSignInUserSession();
       console.log("!!! accessToken: " + session.getAccessToken().getJwtToken());
       console.log("!!! idToken: " + session.getIdToken().getJwtToken());
+      
+      router.push('/webinar');
+
     } catch (error) {
       console.log('error signing in', error);
 
@@ -169,12 +184,13 @@ export default function LoginPage() {
                       }}
                       inputProps={{
                         placeholder: "Event ID...",
-                        type: "email",
+                        type: "text",
                         name: "event_id",
+                        disabled: true,
                         inputRef: register(),
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Event className={classes.inputIconsColor}  />
+                            <CastForEducationIcon className={classes.inputIconsColor}  />
                           </InputAdornment>
                         )
                       }}
@@ -185,13 +201,13 @@ export default function LoginPage() {
                         fullWidth: true
                       }}
                       inputProps={{
-                        placeholder: "Email...",
+                        placeholder: "이메일을 입력해주세요...",
                         type: "email",
                         name: "email",
                         inputRef: register(),
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Email className={classes.inputIconsColor}  />
+                            <AccountBox className={classes.inputIconsColor}  />
                           </InputAdornment>
                         )
                       }}
@@ -211,3 +227,13 @@ export default function LoginPage() {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  eventId: selectEventId(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  RegisterEventId: event_id => dispatch(RegisterEventId(event_id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
