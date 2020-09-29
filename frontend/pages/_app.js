@@ -10,6 +10,10 @@ import React from "react";
 
 import "assets/scss/nextjs-material-kit-pro.scss?v=1.1.0";
 
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { persistor, store } from '../core/redux/store';
+
 
 // import "assets/css/react-demo.css";
 
@@ -75,7 +79,13 @@ import "assets/scss/nextjs-material-kit-pro.scss?v=1.1.0";
 // }
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Component {...pageProps} />
+      </PersistGate>
+    </Provider>
+  )
 }
 
 export default MyApp

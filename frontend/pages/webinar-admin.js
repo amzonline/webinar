@@ -12,15 +12,11 @@ import HeaderLinks from "components/Header/WebinarXHeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 import Footer from "components/Footer/Footer.js";
 
-import Player from "components/Video/IvsPlayer.js"
-
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../core/aws-exports';
 Amplify.configure(awsconfig);
 
-import BoardService from "../services/BoardService";
-
-import SectionWebinarComments from "pages-sections/components/SectionWebinarComments.js";
+import SectionWebinarAdminComments from "pages-sections/components/SectionWebinarAdminComments.js";
 
 import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/webinarXStyle.js";
 
@@ -29,7 +25,6 @@ import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { RegisterEventId } from '../core/redux/event.action';
 import { selectEventId } from '../core/redux/event.selectors';
-
 
 
 const useStyles = makeStyles(presentationStyle);
@@ -84,7 +79,7 @@ function Webinar(eventId) {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           {/* <Player /> */}
-          <SectionWebinarComments/>
+          <SectionWebinarAdminComments/>
         </div>
         <Footer
           theme="white"
