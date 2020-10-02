@@ -169,7 +169,7 @@ export default function LoginPage() {
                       }}
                       inputProps={{
                         placeholder: "Event ID...",
-                        type: "email",
+                        type: "text",
                         name: "event_id",
                         inputRef: register(),
                         startAdornment: (
