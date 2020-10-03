@@ -2,6 +2,7 @@
 import React, { useState, useRef, createRef } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+import { useRouter } from 'next/router';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -55,6 +56,7 @@ export default function LoginPage() {
   });
 
   const { register, handleSubmit, watch, errors } = useForm();
+  const router = useRouter();
 
   async function cognitoSignIn(email) {
     try {
@@ -63,6 +65,7 @@ export default function LoginPage() {
       const session = cognitoUser.getSignInUserSession();
       console.log("!!! accessToken: " + session.getAccessToken().getJwtToken());
       console.log("!!! idToken: " + session.getIdToken().getJwtToken());
+      router.push("/webinar");
     } catch (error) {
       console.log('error signing in', error);
 
