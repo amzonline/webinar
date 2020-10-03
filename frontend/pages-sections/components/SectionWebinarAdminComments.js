@@ -99,8 +99,9 @@ function SectionWebinarAdminComments(eventId) {
         console.log('token: ' + session.idToken.jwtToken);
         const idToken = session.idToken.jwtToken;
 
-        const response = await BoardService.insertReply(idToken, event_id, reply.uid, content);
         setValue("content", "");
+        
+        const response = await BoardService.insertReply(idToken, event_id, reply.uid, content);        
         setReply(defaultReply);
         loadBoards();
       } else {

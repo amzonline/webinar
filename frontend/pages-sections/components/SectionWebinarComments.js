@@ -108,8 +108,9 @@ function SectionWebinarComments(eventId) {
           return;
         }
 
-        const response = await BoardService.insertItem(idToken, event_id, "-", content, "Y");
         setValue("content", "");
+        const response = await BoardService.insertItem(idToken, event_id, "-", content, "Y");
+        
         loadBoards();
       } else {
         moveToLogin();
