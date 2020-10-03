@@ -83,7 +83,7 @@ function Webinar(eventId) {
 
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
-          {/* <Player /> */}
+          <Player />
           <SectionWebinarComments/>
         </div>
         <Footer
