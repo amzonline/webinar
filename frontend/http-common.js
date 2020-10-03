@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const dev = process.env.NODE_ENV !== 'production';
+const BASE_URL = dev? "https://0ao4gnpagc.execute-api.ap-northeast-2.amazonaws.com/Prod": 
+                "https://dqqryphhuqfyi.cloudfront.net/Prod";
+
 export default axios.create({
-  baseURL: "https://dqqryphhuqfyi.cloudfront.net/Prod",
-  // baseURL: "https://0ao4gnpagc.execute-api.ap-northeast-2.amazonaws.com/Prod",
-  // baseURL: "https://my-json-server.typicode.com/go4real/dummy-qna-api",
+  baseURL: BASE_URL,
   headers: {
     "Content-type": "application/json"
   }

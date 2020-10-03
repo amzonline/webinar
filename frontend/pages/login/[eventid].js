@@ -66,7 +66,7 @@ const LoginPage = ({ RegisterEventId }) => {
 
     setValue("event_id", eventid);
     RegisterEventId(eventid);
-  });
+  }, [eventid]);
 
   async function cognitoSignIn(email) {
     try {
