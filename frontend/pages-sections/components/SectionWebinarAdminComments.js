@@ -116,21 +116,16 @@ function SectionWebinarAdminComments(eventId) {
   function moveToLogin() {
     router.push("/webinar-login");
   }
-  
+
   useEffect(() => {
-  //   window.scrollTo(0, 0);
-  //   document.body.scrollTop = 0;
-
-  //   let completed = false;
-    
     loadBoards();
-  
-  //   return () => {
-  //     completed = true;
-  //   };
-  }, []);
-  // });
 
+    const interval = setInterval(() => {
+      loadBoards();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
   async function loadBoards() {
     try {
       const response = await BoardService.getAll(event_id);

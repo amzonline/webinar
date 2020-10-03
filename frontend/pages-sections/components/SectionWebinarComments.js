@@ -124,6 +124,13 @@ function SectionWebinarComments(eventId) {
   function moveToLogin() {
     router.push("/webinar-login");
   }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadBoards();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   
   useEffect(() => {
   //   window.scrollTo(0, 0);
