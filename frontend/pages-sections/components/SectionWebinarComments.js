@@ -167,10 +167,10 @@ function SectionWebinarComments(eventId) {
         <GridItem xs={12} sm={10} md={8}>
           <div>
             <h3 className={classes.title}>질문 목록</h3>
+            
             <List className={classes.listRoot}>
               {contents.map( item => (
                 // <div key={item.uid}>{item.title}</div>
-
 
                 <ListItem alignItems="flex-start" key={item.uid}>
                   <CommentMedia
@@ -201,8 +201,10 @@ function SectionWebinarComments(eventId) {
               ))}
             </List>
           </div>
+
+          <hr/>
+
           <h3 className={classes.title}>질문하기</h3>
-          
           <form onSubmit={handleSubmit(onSubmit)}>
             <CommentMedia
               avatar={'Q'}

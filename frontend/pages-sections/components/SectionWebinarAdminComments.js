@@ -200,6 +200,9 @@ function SectionWebinarAdminComments(eventId) {
               ))}
             </List>
           </div>
+          
+          <hr/>
+
           <h3 className={classes.title}>답변하기</h3>
           <Quote
             author={reply.content}
