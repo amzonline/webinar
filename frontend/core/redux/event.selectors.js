@@ -1,9 +1,18 @@
 import { createSelector } from 'reselect';
 
-const selectEvent = state => state.eventId;
+const selectEventMeta = state => state.event.eventMeta;
 
-export const selectEventId = createSelector(
-  [selectEvent],
-  event_id => event_id
+export const selectEventName = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.eventName
 );
 
+export const selectEventNo = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.eventNo
+);
+
+export const selectEventPlaybackUrl = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.playbackUrl
+);

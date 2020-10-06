@@ -12,7 +12,7 @@ const getAll = (event_id) => {
 
 const insertItem = (token, eventId, title, content, isPublic) => {
   return http.post("/insert_item", {
-    event_id: eventId,
+    event_id: ""+eventId,
     title: title,
     content: content,
     is_public: isPublic

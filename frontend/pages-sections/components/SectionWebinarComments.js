@@ -31,9 +31,7 @@ import awsconfig from '../../core/aws-exports';
 Amplify.configure(awsconfig);
 
 import { connect } from 'react-redux';
-import { RegisterEventId } from '../../core/redux/event.action';
-import { selectEventId } from '../../core/redux/event.selectors';
-
+import { selectEventNo } from '../../core/redux/event.selectors';
 
 
 import sectionCommentsStyle from "assets/jss/nextjs-material-kit-pro/pages/blogPostSections/sectionCommentsStyle.js";
@@ -67,22 +65,10 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
 }));
 
 
-function SectionWebinarComments(eventId) {
+function SectionWebinarComments(props) {
   const classes = useStyles();
-  const router = useRouter();
-
-  console.log("------------------------");
-  const event_id = eventId.eventId.event_id;
-
-  const dummy1 = [
-    { uid: "a1", title: "dummy 1"},
-    { uid: "a2", title: "dummy 2"}
-  ];
-
-  const dummy2 = [
-    { uid: "a3", title: "dummy 3"},
-    { uid: "a4", title: "dummy 4"}
-  ];
+  const router = useRouter()
+  const eventId = props.eventId;
 
   const [data, setData] = useState({list:[]});
 
@@ -109,7 +95,7 @@ function SectionWebinarComments(eventId) {
         }
 
         setValue("content", "");
-        const response = await BoardService.insertItem(idToken, event_id, "-", content, "Y");
+        const response = await BoardService.insertItem(idToken, eventId, "-", content, "Y");
         
         loadBoards();
       } else {
@@ -123,7 +109,7 @@ function SectionWebinarComments(eventId) {
   }
 
   function moveToLogin() {
-    router.push("/webinar-login");
+    router.push("/login/" + eventId);
   }
 
   useEffect(() => {
@@ -149,11 +135,9 @@ function SectionWebinarComments(eventId) {
 
   async function loadBoards() {
     try {
-      const response = await BoardService.getAll(event_id);
-      console.log("****************** loadBoards called");
+      const response = await BoardService.getAll(eventId);
       console.log(response.data.list);
       setContents(response.data.list);
-      console.log("******************");
       
     } catch (error) {
       console.log(error.message);
@@ -238,11 +222,9 @@ function SectionWebinarComments(eventId) {
 
 
 const mapStateToProps = state => ({
-  eventId: selectEventId(state),
+  eventId: selectEventNo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  RegisterEventId: eventId => dispatch(RegisterEventId(eventId)),
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SectionWebinarComments);

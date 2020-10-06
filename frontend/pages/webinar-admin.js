@@ -24,14 +24,10 @@ import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/webinarX
 
 import { useRouter } from 'next/router';
 
-import { connect } from 'react-redux';
-import { RegisterEventId } from '../core/redux/event.action';
-import { selectEventId } from '../core/redux/event.selectors';
-
 
 const useStyles = makeStyles(presentationStyle);
 
-function Webinar(eventId) {
+function Webinar(props) {
   const classes = useStyles();
   const router = useRouter();
   
@@ -39,27 +35,8 @@ function Webinar(eventId) {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
     
-    //TODO: refactor,,
-    console.log("------------------------");
-    console.log(eventId.eventId.event_id);
   });
   
-  async function checkSession() {
-    try {
-      const session = await Auth.currentSession();
-      if (session.isValid()) {
-        console.log('token: ' + session.accessToken.jwtToken);
-        accessToken = session.accessToken.jwtToken;
-        setToken(accessToken);
-      } else {
-        moveToLogin();
-      }
-    } catch (error) {
-      console.log(error.message);
-      moveToLogin();
-    }
-  }
-
   return (
     <>
       <div>
@@ -144,12 +121,5 @@ function Webinar(eventId) {
   );
 }
 
-const mapStateToProps = state => ({
-  eventId: selectEventId(state),
-});
 
-const mapDispatchToProps = dispatch => ({
-  RegisterEventId: eventId => dispatch(RegisterEventId(eventId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Webinar);
+export default Webinar;

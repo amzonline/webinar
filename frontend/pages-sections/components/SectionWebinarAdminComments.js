@@ -31,8 +31,7 @@ import awsconfig from '../../core/aws-exports';
 Amplify.configure(awsconfig);
 
 import { connect } from 'react-redux';
-import { RegisterEventId } from '../../core/redux/event.action';
-import { selectEventId } from '../../core/redux/event.selectors';
+import { selectEventNo } from '../../core/redux/event.selectors';
 import Quote from "components/Typography/Quote.js";
 
 
@@ -63,13 +62,13 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
 }));
 
 
-function SectionWebinarAdminComments(eventId) {
+function SectionWebinarAdminComments(props) {
   const classes = useStyles();
   const router = useRouter();
 
   const defaultReply = {"uid": "", "content": "질문을 선택해주세요.."};
 
-  const event_id = eventId.eventId.event_id;
+  const eventId = props.eventNo;
 
   const [data, setData] = useState({list:[]});
 
@@ -101,7 +100,7 @@ function SectionWebinarAdminComments(eventId) {
 
         setValue("content", "");
         
-        const response = await BoardService.insertReply(idToken, event_id, reply.uid, content);        
+        const response = await BoardService.insertReply(idToken, eventId, reply.uid, content);        
         setReply(defaultReply);
         loadBoards();
       } else {
@@ -115,7 +114,7 @@ function SectionWebinarAdminComments(eventId) {
   }
 
   function moveToLogin() {
-    router.push("/webinar-login");
+    router.push("/login/" + eventId);
   }
 
   useEffect(() => {
@@ -129,7 +128,7 @@ function SectionWebinarAdminComments(eventId) {
   
   async function loadBoards() {
     try {
-      const response = await BoardService.getAll(event_id);
+      const response = await BoardService.getAll(eventId);
       console.log("****************** loadBoards called");
       console.log(response.data.list);
       setContents(response.data.list);
@@ -240,11 +239,9 @@ function SectionWebinarAdminComments(eventId) {
 
 
 const mapStateToProps = state => ({
-  eventId: selectEventId(state),
+  eventNo: selectEventNo(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  RegisterEventId: eventId => dispatch(RegisterEventId(eventId)),
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SectionWebinarAdminComments);

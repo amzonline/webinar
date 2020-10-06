@@ -1,6 +1,5 @@
 const EventActionTypes = {
-  EVENT_ID: 'EVENT_ID',
-  EVENT_NAME: 'EVENT_NAME',
+  EVENT_META: 'EVENT_META'
 };
 
 export default EventActionTypes;

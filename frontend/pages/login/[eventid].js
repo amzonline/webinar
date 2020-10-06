@@ -7,15 +7,9 @@ import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import AccountBox from "@material-ui/icons/AccountBox";
-import Event from "@material-ui/icons/Event";
 import CastForEducationIcon from '@material-ui/icons/CastForEducation';
-import Favorite from "@material-ui/icons/Favorite";
-import Face from "@material-ui/icons/Face";
 // core components
 import Header from "components/Header/Header.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
@@ -30,8 +24,8 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 
 import { connect } from 'react-redux';
-import { RegisterEventId } from '../../core/redux/event.action';
-import { selectEventId } from '../../core/redux/event.selectors';
+import { registerEventMeta } from '../../core/redux/event.action';
+import { selectEventName } from '../../core/redux/event.selectors';
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../../core/aws-exports';
@@ -45,6 +39,8 @@ import headersStyle from "assets/jss/nextjs-material-kit-pro/pages/sectionsSecti
 
 // import { providers, signIn } from 'next-auth/client'
 
+import AdminService from "../../services/AdminService";
+
 import backgroundImage from "assets/img/summit-background.png";
 import office2 from "assets/img/examples/office2.jpg";
 
@@ -54,27 +50,77 @@ function makeTempPassword(key) {
   return '!DUMMY@' + md5(key);
 }
 
-const LoginPage = ({ RegisterEventId }) => {
+const LoginPage = ({ registerEventMeta }) => {
 
   const router = useRouter()
   const { eventid } = router.query;
   const { register, handleSubmit, setValue } = useForm();
+  const [ eventName, setEventName ] = useState("Checking...") ;
+
+  const dev = process.env.NODE_ENV !== 'production';
   
+  // async function checkSession() {
+  //   try {
+  //     const session = await Auth.currentSession();
+  //     if (session.isValid()) {
+  //       console.log('token: ' + session.accessToken.jwtToken);
+  //       accessToken = session.accessToken.jwtToken;
+  //       setToken(accessToken);
+  //     } else {
+  //       moveToLogin();
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     moveToLogin();
+  //   }
+  // }
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
-
-    setValue("event_id", eventid);
-    RegisterEventId(eventid);
+    getEventMeta();
   }, [eventid]);
+
+  async function getEventMeta() {
+    //TODO: change code to Provider
+    let eventData;
+    if(!dev) {
+      const response = await AdminService.getEventMeta(eventid);
+      eventData = response.data.message;
+      console.log(response.data.message);
+    } else {
+      const dummy = {
+        "message": {
+              "eventNo": 7,
+              "eventName": "[10/08] 새로운 웨비나 플랫폼 소개",
+              "type": "L",
+              "status": "READY",
+              "siteOpen": "1",
+              "needAuth": "0",
+              "startDate": "2020-10-08 15:00:00",
+              "endDate": "2020-10-08 17:00:00",
+              "maxCapacity": 100,
+              "obsUrl": "2",
+              "playbackKey": "3",
+              "playbackUrl": "https://0b377682ced3.us-west-2.playback.live-video.net/api/video/v1/us-west-2.223427183593.channel.wiHiuxdpsmEf.m3u8"
+          }
+      };
+      eventData = dummy.message;
+    }
+
+    setEventName(eventData.eventName);
+    registerEventMeta(eventData);
+
+  }
 
   async function cognitoSignIn(email) {
     try {
       const cognitoUser = await Auth.signIn(email.replace(/[@.]/g, '|'), makeTempPassword(email));
 
       const session = cognitoUser.getSignInUserSession();
-      console.log("!!! accessToken: " + session.getAccessToken().getJwtToken());
-      console.log("!!! idToken: " + session.getIdToken().getJwtToken());
+      // console.log("!!! accessToken: " + session.getAccessToken().getJwtToken());
+      // console.log("!!! idToken: " + session.getIdToken().getJwtToken());
       
       router.push('/webinar');
 
@@ -156,9 +202,9 @@ const LoginPage = ({ RegisterEventId }) => {
                 classes.textCenter
               )}
             >
-              <h1 className={classes.title}>AWS Builders Livestream</h1>
+              <h1 className={classes.title}>{eventName}</h1>
               <h4>
-                AWS를 빠르게 시작하는 방법
+                powered by <b>AWS Webinar-X</b>
               </h4>
             </GridItem>
             <GridItem
@@ -177,24 +223,6 @@ const LoginPage = ({ RegisterEventId }) => {
 
                 <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                   <CardBody signup>
-                    <CustomInput
-                      id="event_id"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        placeholder: "Event ID...",
-                        type: "text",
-                        name: "event_id",
-                        disabled: true,
-                        inputRef: register(),
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <CastForEducationIcon className={classes.inputIconsColor}  />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
                     <CustomInput
                       id="email"
                       formControlProps={{
@@ -215,7 +243,7 @@ const LoginPage = ({ RegisterEventId }) => {
                   </CardBody>
                   <div className={classes.textCenter}>
                     <Button type="submit" simple color="primary" size="lg">
-                      시작하기
+                      참여하기
                     </Button>
                   </div>
                 </form>
@@ -228,12 +256,10 @@ const LoginPage = ({ RegisterEventId }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  eventId: selectEventId(state),
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-  RegisterEventId: event_id => dispatch(RegisterEventId(event_id)),
+  registerEventMeta: eventMeta => dispatch(registerEventMeta(eventMeta)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
