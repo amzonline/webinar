@@ -7,7 +7,8 @@ import { selectEventName, selectEventPlaybackUrl } from '../../core/redux/event.
 function IvsPlayer(props) {
     const divEl = useRef(null);
     const videoEl = useRef(null);
-    const playbackUrl = props.eventPlaybackUrl;
+    // const playbackUrl = props.eventPlaybackUrl;
+    const playbackUrl = "https://d6hwdeiig07o4.cloudfront.net/ivs/956482054022/cTo5UpKS07do/2020-07-13T22-54-42.188Z/OgRXMLtq8M11/media/hls/master.m3u8";
 
     useEffect(() => {
         const script = document.createElement('script');

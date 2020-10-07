@@ -15,6 +15,10 @@ const presentationStyle = {
     ...main
     /*overflow: "hidden"*/
   },
+  sectionBlank: {
+    height: "70px",
+    display: "block"
+  },
   mainRaised,
   parallax: {
     height: "220px",
@@ -38,6 +42,11 @@ const presentationStyle = {
       display: "inline-block",
       position: "relative"
     }
+  },
+  paper: {
+    padding: "2",
+    textAlign: 'center',
+    color: whiteColor,
   },
   proBadge: {
     position: "relative",

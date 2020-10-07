@@ -6,6 +6,7 @@ const getEventMeta = (eventId) => {
   })
 };
 
+
 export default {
   getEventMeta
 }

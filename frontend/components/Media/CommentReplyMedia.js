@@ -7,9 +7,9 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import Avatar from '@material-ui/core/Avatar';
 
-import styles from "assets/jss/nextjs-material-kit-pro/components/webinarMediaStyle.js";
+import mediaStyles from "assets/jss/nextjs-material-kit-pro/components/webinarXMediaStyle.js";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(mediaStyles);
 
 export default function CommentMedia(props) {
   const {
@@ -25,9 +25,9 @@ export default function CommentMedia(props) {
   const classes = useStyles();
   return (
     <div {...rest} className={classes.media}>
-      {/* <a href={avatarLink} className={classes.mediaLink}>
-        <Avatar>{avatar}</Avatar>
-      </a> */}
+      <a href={avatarLink} className={classes.mediaLink}>
+      <Avatar className={classes.small}>{avatar}</Avatar>
+      </a>
       <div className={classes.mediaBody}>
         {title !== undefined ? (
           <h4 className={classes.mediaHeading}>{title}</h4>

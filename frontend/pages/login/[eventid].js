@@ -122,7 +122,8 @@ const LoginPage = ({ registerEventMeta }) => {
       // console.log("!!! accessToken: " + session.getAccessToken().getJwtToken());
       // console.log("!!! idToken: " + session.getIdToken().getJwtToken());
       
-      router.push('/webinar');
+      //TODO: make a branch depending on the client browser
+      router.push('/webinar-x');
 
     } catch (error) {
       console.log('error signing in', error);
