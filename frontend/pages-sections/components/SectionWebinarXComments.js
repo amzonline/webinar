@@ -47,12 +47,14 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
   },
   listRoot: {
     width: '100%',
-    // height: '80%',
+    height: '50vh',
     backgroundColor: '#f2f2f2',
     position: 'relative',
     overflow: 'auto',
     // minHeight: 300,
-    maxHeight: 410,
+    // maxHeight: 410,
+    // width: '100vw',
+    // height: '100vh'
   },
   paper: {
     width: '100%',
@@ -155,10 +157,9 @@ function SectionWebinarComments(props) {
   return (
     <div className={classes.root}>
       <div>
-        <h4 className={classes.title}>질문</h4>
+        <h3 className={classes.title}>Questions to AWS Experts</h3>
         <List className={classes.listRoot}>
           {contents.map( item => (
-            // <div key={item.uid}>{item.title}</div>
 
             <ListItem alignItems="flex-start" key={item.uid}>
               <CommentMedia

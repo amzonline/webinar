@@ -7,8 +7,8 @@ import { selectEventName, selectEventPlaybackUrl } from '../../core/redux/event.
 function IvsPlayer(props) {
     const divEl = useRef(null);
     const videoEl = useRef(null);
-    // const playbackUrl = props.eventPlaybackUrl;
-    const playbackUrl = "https://0b377682ced3.us-west-2.playback.live-video.net/api/video/v1/us-west-2.223427183593.channel.wiHiuxdpsmEf.m3u8";
+    const playbackUrl = props.eventPlaybackUrl;
+    // const playbackUrl = "https://0b377682ced3.us-west-2.playback.live-video.net/api/video/v1/us-west-2.223427183593.channel.wiHiuxdpsmEf.m3u8";
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -35,7 +35,7 @@ function IvsPlayer(props) {
     }, [])
 
     return (
-        <div ref={divEl}>
+        <div ref={divEl} style={{padding:"10px"}}>
             <video
                 id="video-player"
                 ref={videoEl}
