@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 
 // @material-ui/icons
 import Reply from "@material-ui/icons/Reply";
+import ArrowForward from "@material-ui/icons/ArrowForward";
 import Favorite from "@material-ui/icons/Favorite";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -22,6 +23,7 @@ import CommentMedia from "components/Media/CommentMedia.js";
 import Media from "components/Media/Media.js";
 import Button from "components/CustomButtons/Button.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import CommentReplyMedia from "components/Media/CommentReplyMedia.js";
 
 import BoardService from "../../services/BoardService";
 import axios from "axios";
@@ -46,7 +48,7 @@ const useStyles = makeStyles((sectionCommentsStyle) => ({
     backgroundColor: sectionCommentsStyle.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 400,
+    maxHeight: 500,
   },
   paper: {
     width: '100%',
@@ -146,7 +148,7 @@ function SectionWebinarAdminComments(props) {
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
-        <GridItem xs={12} sm={10} md={8}>
+        <GridItem xs={5}>
           <div>
             <h3 className={classes.title}>질문 목록</h3>
             <List className={classes.listRoot}>
@@ -173,16 +175,15 @@ function SectionWebinarAdminComments(props) {
                             className={classes.footerButtons}
                             onClick={() => { selectQuestion(item.uid, item.content) }}
                           >
-                            <Reply className={classes.footerIcons} /> Reply
+                            답변하기 <ArrowForward className={classes.footerIcons} /> 
                           </Button>
                         </Tooltip>
                       </div>
                     }
                     innerMedias={
                       item.reply && item.reply.map(comment => (
-                        <CommentMedia
+                        <CommentReplyMedia
                           key={comment.reply_uid}
-                          avatar={'A'}
                           body={
                             <span className={classes.color555}>
                               <p>
@@ -199,9 +200,8 @@ function SectionWebinarAdminComments(props) {
               ))}
             </List>
           </div>
-          
-          <hr/>
-
+        </GridItem>
+        <GridItem xs={5}>
           <h3 className={classes.title}>답변하기</h3>
           <Quote
             author={reply.content}
