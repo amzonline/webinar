@@ -1,89 +1,129 @@
-import React from "react";
+/*eslint-disable*/
+import React, { Component, useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-// react components for routing our app without refresh
-import Link from "next/link";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 // core components
-import WebinarHeader from "components/Header/WebinarHeader.js";
-import WebinarHeaderLinks from "components/Header/WebinarHeaderLinks.js";
-import Footer from "components/Footer/Footer.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import GridItem from "components/Grid/GridItem.js";
+import Header from "components/Header/WebinarXStaticHeader.js";
+import HeaderLinks from "components/Header/WebinarXHeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
-// sections for this page
-import SectionBoard from "pages-sections/Components-Sections/SectionBoard.js";
+import Favorite from "@material-ui/icons/Favorite";
 
-import styles from "assets/jss/nextjs-material-kit/pages/components.js";
+import Footer from "components/Footer/WebinarXFooter.js";
 
-// import Player from "components/Video/Player.js"
-import Player from "components/Video/IvsPlayer.js"
+import Player from "components/Video/IvsPlayer2.js"
 
-const useStyles = makeStyles(styles);
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../core/aws-exports';
+Amplify.configure(awsconfig);
 
-export default function Components(props) {
+import BoardService from "../services/BoardService";
+
+import Grid from '@material-ui/core/Grid';
+import Box from "@material-ui/core/Box";
+
+import SectionWebinarComments from "pages-sections/components/SectionWebinarXComments.js";
+
+import presentationStyle from "assets/jss/nextjs-material-kit-pro/pages/webinarYStyle.js";
+
+import { useRouter } from 'next/router';
+
+import { connect } from 'react-redux';
+import { selectEventName, selectEventPlaybackUrl } from '../core/redux/event.selectors';
+
+const useStyles = makeStyles(presentationStyle);
+
+function Webinar(props) {
   const classes = useStyles();
-  const { ...rest } = props;
-
-  // const videoJsOptions = {
-  //   techOrder: ['AmazonIVS'],
-  //   autoplay: true,
-  //   controls: true,
-  //   sources: [
-  //     {
-  //       src: 'https://fcc3ddae59ed.us-west-2.playback.live-video.net/api/video/v1/us-west-2.893648527354.channel.XFAcAcypUxQm.m3u8',
-  //       type: 'application/x-mpegURL',
-  //     },
-  //   ],
-  // }
-
+  const router = useRouter();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.scrollTop = 0;
+    
+    console.log(props.eventName);
+  });
+  
   return (
-    <div>
-      <WebinarHeader
-        brand="AWS"
-        rightLinks={<WebinarHeaderLinks />}
-        fixed
-        color="transparent"
-        changeColorOnScroll={{
-          height: 400,
-          color: "white"
-        }}
-        {...rest}
-      />
-      <Parallax image={require("assets/img/builders-bg.png")}>
-        <div className={classes.container}>
-          <GridContainer>
-            <GridItem>
-              <div className={classes.brand}>
-                <h1 className={classes.title}>AWS Builders Livestream</h1>
-                <h3 className={classes.subtitle}>
-                  AWS를 빠르게 시작하는 방법
-                </h3>
-              </div>
-            </GridItem>
-          </GridContainer>
-        </div>
-      </Parallax>
+    <>
+      <div className={classes.gridRoot}>
+        <Grid container direction="row" justify="center" spacing={3} alignItems="stretch" alignContent="stretch" >
+          <Grid item justify="center" xs={12}>
+            <Header
+              brand="AWS"
+              links={<HeaderLinks dropdownHoverColor="info" />}
+              color="dark"
+            />
+          </Grid>
+          <Grid item xs={9} className={classes.videoPlayer}>
+            <Player />
+          </Grid>
+          <Grid item justify="center" xs={3} className={classes.comments}>
+              <SectionWebinarComments />
+          </Grid>
+          <Grid item justify="center" xs={12}>
+            <Footer
+              theme="transparent"
+              content={
+                <div>
+                  <div className={classes.left}>
+                    <a
+                      href="https://aws.amazon.com/"
+                      target="_blank"
+                      className={classes.footerBrand}
+                    >
+                      Amazon Web Services
+                    </a>
+                  </div>
+                  <div className={classes.rightLinks}>
+                    <List className={classes.list}>
+                      <ListItem className={classes.inlineBlock}>
+                        <a
+                          href="https://aws.amazon.com/"
+                          target="_blank"
+                          className={classes.block}
+                        >
+                          About us
+                        </a>
+                      </ListItem>
+                      <ListItem className={classes.inlineBlock}>
+                        <a
+                          href="https://aws.amazon.com/"
+                          className={classes.block}
+                        >
+                          Blog
+                        </a>
+                      </ListItem>
+                      <ListItem className={classes.inlineBlock}>
+                        <a
+                          href="https://aws.amazon.com/"
+                          target="_blank"
+                          className={classes.block}
+                        >
+                          Licenses
+                        </a>
+                      </ListItem>
+                    </List>
+                  </div>
+                </div>
+              }
+            />
+          </Grid>
+        </Grid>
 
-      <div className={classNames(classes.main, classes.mainRaised)}>
-        {/* <Player {...videoJsOptions} /> */}
-        <Player />
-        <SectionBoard/>
-        {/* <Container maxWidth="xl">          
-        </Container> */}
-        {/* <GridItem md={12} className={classes.textCenter}>
-          <Link href="/login">
-            <a className={classes.link}>
-              <Button color="primary" size="lg" simple>
-                View Login Page
-              </Button>
-            </a>
-          </Link>
-        </GridItem> */}
       </div>
-      <Footer />
-    </div>
+    
+    </>
   );
 }
+
+const mapStateToProps = state => ({
+  eventName: selectEventName(state)
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Webinar);
