@@ -148,6 +148,8 @@ router.post('/create', async function (req, res, next) {
     var playbackKey = req.body.playbackKey;
     var playbackUrl = req.body.playbackUrl;
     var ondemandUrl = req.body.ondemandUrl;
+    var downloadUrl = req.body.downloadUrl;
+    var feedbackUrl = req.body.feedbackUrl;
 
     console.log("body : " + util.inspect(req.body))
 
@@ -155,15 +157,16 @@ router.post('/create', async function (req, res, next) {
         // 있는지 확인
         let sql = "";
         sql = "";
-        sql += 'SELECT count(*) as cnt FROM TB_EVENT WHERE eventNo = :eventNo; ';
+        sql += 'SELECT count(*) as cnt FROM TB_EVENT WHERE eventNo = :eventNo; ' ;
         var ret = await query.findOne(sql, { 'eventNo' : eventNo });
 
-        if (ret.cnt > 0) { // UPDATE
+        if (ret.cnt > 0) { //  UPDATE
             let sql = "";
             sql = "";
-            sql += 'UPDATE TB_EVENT SET eventName = :eventName, type = :type, startDate = :startDate, endDate = :endDate, ' ;
+            sql += 'UPDATE TB_EVENT SET eventName = :eventName, type = :type, startDate = :startDate, endDate = :endDate, '  ;
             sql += 'maxCapacity = :maxCapacity, needAuth = :needAuth, siteOpen = :siteOpen, obsUrl = :obsUrl, ';
             sql += 'playbackKey = :playbackKey, playbackUrl = :playbackUrl, ondemandUrl = :ondemandUrl, status = :status, ';
+            sql += 'downloadUrl = :downloadUrl, feedbackUrl = :feedbackUrl, ';
             sql += 'updatedAdminNo = :updatedAdminNo, updatedDate = NOW() ';
             sql += 'WHERE eventNo = :eventNo; ';
 
@@ -179,6 +182,8 @@ router.post('/create', async function (req, res, next) {
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
                 'ondemandUrl' : ondemandUrl,
+                'downloadUrl' : downloadUrl,
+                'feedbackUrl' : feedbackUrl,
                 'status' : 'READY',
                 'updatedAdminNo' : userNo,
                 'eventNo' : eventNo
@@ -187,9 +192,9 @@ router.post('/create', async function (req, res, next) {
             let sql = "";
             sql = "";
             sql += 'INSERT INTO TB_EVENT ( eventName, type, startDate, endDate, maxCapacity, needAuth, ';
-            sql += 'siteOpen, obsUrl, playbackKey, playbackUrl, status, createdAdminNo, createdDate ) ';
+            sql += 'siteOpen, obsUrl, playbackKey, playbackUrl, downloadUrl, feedbackUrl, status, createdAdminNo, createdDate ) ';
             sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :needAuth, :siteOpen, ';
-            sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :status, :createdAdminNo, NOW() )';
+            sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :downloadUrl, :feedbackUrl, :status, :createdAdminNo, NOW() )';
 
             var ret = await query.insert(sql, {
                 'eventName' : eventName,
@@ -203,6 +208,8 @@ router.post('/create', async function (req, res, next) {
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
                 'ondemandUrl' : ondemandUrl,
+                'downloadUrl' : downloadUrl,
+                'feedbackUrl' : feedbackUrl,
                 'status' : 'READY',
                 'createdAdminNo' : userNo
             });

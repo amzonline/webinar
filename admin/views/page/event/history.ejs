@@ -99,11 +99,11 @@
                                                 <th scope="col">START</th>
                                                 <th scope="col">END</th>
                                                 <th scope="col">MAX</th>
-                                                <th scope="col">OBS</th>
+                                                <!--th scope="col">OBS</th>
                                                 <th scope="col">KEY</th>
                                                 <th scope="col">PLAYBACK</th>
                                                 <th scope="col">ONDEMAND</th>
-                                                <th scope="col">STATUS</th>
+                                                <th scope="col">STATUS</th-->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -113,11 +113,11 @@
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].eventNo %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].eventName %></a></td>
                                                 <td><% if (historyList[i].type == 'L') { %>
-                                                        LIVE STREAMING
+                                                    <a href="/ivsevent/<%=historyList[i].eventNo%>">LIVE STREAMING</a>
                                                     <%} else if (historyList[i].type == 'D') { %>
-                                                        VIDEO STREAMING
+                                                    <a href="/ivsevent/<%=historyList[i].eventNo%>">VIDEO STREAMING</a>
                                                     <%} else { %>
-                                                        VIDEO ONDEMAND
+                                                    <a href="/ivsevent/<%=historyList[i].eventNo%>">VIDEO ONDEMAND</a>
                                                     <%}%>
                                                 </td>
                                                 <td><% if (historyList[i].siteOpen == '0') { %>
@@ -135,11 +135,11 @@
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].startDate %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].endDate %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].maxCapacity %></a></td>
-                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].obsUrl %></a></td>
+                                                <!--  td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].obsUrl %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackKey %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].playbackUrl %></a></td>
                                                 <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].ondemandUrl %></a></td>
-                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].status %></a></td>
+                                                <td><a href="/ivsevent/<%=historyList[i].eventNo%>"><%= historyList[i].status %></a></td-->
                                             </tr>
                                             <% } %>
                                         </tbody>
