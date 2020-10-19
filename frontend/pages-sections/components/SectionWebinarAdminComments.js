@@ -130,7 +130,10 @@ function SectionWebinarAdminComments(props) {
   
   async function loadBoards() {
     try {
-      const response = await BoardService.getAll(eventId);
+      const session = await Auth.currentSession();
+      const idToken = session.idToken.jwtToken;
+
+      const response = await BoardService.getAll(idToken, eventId);
       console.log("****************** loadBoards called");
       console.log(response.data.list);
       setContents(response.data.list);

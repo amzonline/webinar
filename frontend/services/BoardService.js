@@ -1,11 +1,14 @@
 import http from "../http-common";
 
-const getAll = (event_id) => {
+const getAll = (token, event_id) => {
   return http.get("/get_item_list", {
   // return http.get("/board", {
     params: {
       event_id: event_id,
       page_size: 20
+    },
+    headers: {
+      'Authorization': token
     }
   });
 };
