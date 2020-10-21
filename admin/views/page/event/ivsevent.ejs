@@ -123,15 +123,43 @@
                                                     <label>MAX CAPACITY</label>
                                                     <input id="maxCapacity" name="maxCapacity" type="text" class="form-control" placeholder="300" value="<%=ivsevent.maxCapacity%>">
                                                 </div>
+
+                                                <div class="form-group">
+                                                    <label>DOWNLOAD URL</label>
+                                                    <input id="downloadUrl" name="downloadUrl" type="text" class="form-control" placeholder="" value="<%=ivsevent.downloadUrl%>">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>FEEDBACK URL</label>
+                                                    <input id="feedbackUrl" name="feedbackUrl" type="text" class="form-control" placeholder="" value="<%=ivsevent.feedbackUrl%>">
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="col-md-auto step-arrow"> </div>
                                         <div class="col-md-5">
                                             <div class="step-cnt">
                                                 <div class="form-group">
+                                                    <label>Status</label>
+                                                    <%
+                                                    var opt1 = 'selected'  ;
+                                                    var opt2 = '';
+                                                    var opt3 = '';
+                                                    if (ivsevent.status == 'READY') { opt1 = 'selected'; opt2 = ''; opt3 = '';}
+                                                    else if (ivsevent.status == 'START') { opt1 = ''; opt2 = 'selected'; opt3 = '';}
+                                                    else if (ivsevent.status == 'END') { opt1 = ''; opt2 = ''; opt3 = 'selected';}
+                                                    %>
+                                                    <select id="status" name="status" class="form-control">
+                                                        <option value="READY" <%=opt1%>>READY</option>
+                                                        <option value="START" <%=opt2%>>START</option>
+                                                        <option value="END" <%=opt3%>>END</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label>NEED AUTH</label>
                                                     <%
-                                                    var opt1 = '';
+                                                    var opt1 = ''  ;
                                                     var opt2 = 'selected';
                                                     if (ivsevent.needAuth == '0') { opt1 = 'selected'; opt2 = ''}
                                                     %>
@@ -166,12 +194,12 @@
 
                                                 <div class="form-group">
                                                     <label>PLAYBACK URL</label>
-                                                    <input id="playbackUrl" name="playbackUrl" type="text" class="form-control" placeholder="" value="<%=ivsevent.playbackUrl%>">
+                                                    <input id="playbackUrl" name="playbackUrl" type="text" class="form-control" placeholder="(OPTIONAL)" value="<%=ivsevent.playbackUrl%>">
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>ONDEMAND URL</label>
-                                                    <input id="ondemandUrl" name="ondemandUrl" type="text" class="form-control" placeholder="" value="<%=ivsevent.ondemandUrl%>">
+                                                    <input id="ondemandUrl" name="ondemandUrl" type="text" class="form-control" placeholder="(OPTIONAL)" value="<%=ivsevent.ondemandUrl%>">
                                                 </div>
                                             </div>
                                         </div>
@@ -272,14 +300,14 @@
                     alert('Enter an obs url.');
                     return false;
                 }
-                if (document.getElementById("playbackKey").value == "") {
-                    alert('Enter a playback key.');
-                    return false;
-                }
-                if (document.getElementById("playbackUrl").value == "") {
-                    alert('Enter a playback url.');
-                    return false;
-                }
+                //if (document.getElementById("playbackKey").value == "") {
+                //    alert('Enter a playback key.');
+                //    return false;
+                //}
+                //if (document.getElementById("playbackUrl").value == "") {
+                //    alert('Enter a playback url.');
+                //    return false;
+                //}
 
                 document.getElementById("rec")
             });
