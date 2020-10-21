@@ -142,6 +142,7 @@ router.post('/create', async function (req, res, next) {
     var endDate = req.body.endDate;
     var maxCapacity = req.body.maxCapacity;
 
+    var status = req.body.status;
     var needAuth = req.body.needAuth;
     var siteOpen = req.body.siteOpen;
     var obsUrl = req.body.obsUrl;
@@ -164,7 +165,7 @@ router.post('/create', async function (req, res, next) {
             let sql = "";
             sql = "";
             sql += 'UPDATE TB_EVENT SET eventName = :eventName, type = :type, startDate = :startDate, endDate = :endDate, '  ;
-            sql += 'maxCapacity = :maxCapacity, needAuth = :needAuth, siteOpen = :siteOpen, obsUrl = :obsUrl, ';
+            sql += 'maxCapacity = :maxCapacity, status = :status, needAuth = :needAuth, siteOpen = :siteOpen, obsUrl = :obsUrl, ';
             sql += 'playbackKey = :playbackKey, playbackUrl = :playbackUrl, ondemandUrl = :ondemandUrl, status = :status, ';
             sql += 'downloadUrl = :downloadUrl, feedbackUrl = :feedbackUrl, ';
             sql += 'updatedAdminNo = :updatedAdminNo, updatedDate = NOW() ';
@@ -176,6 +177,7 @@ router.post('/create', async function (req, res, next) {
                 'startDate' : startDate,
                 'endDate' : endDate,
                 'maxCapacity' : maxCapacity,
+                'status' : status,
                 'needAuth' : needAuth,
                 'siteOpen' : siteOpen,
                 'obsUrl' : obsUrl,
@@ -184,16 +186,15 @@ router.post('/create', async function (req, res, next) {
                 'ondemandUrl' : ondemandUrl,
                 'downloadUrl' : downloadUrl,
                 'feedbackUrl' : feedbackUrl,
-                'status' : 'READY',
                 'updatedAdminNo' : userNo,
                 'eventNo' : eventNo
             });
         } else { // INSERT
             let sql = "";
             sql = "";
-            sql += 'INSERT INTO TB_EVENT ( eventName, type, startDate, endDate, maxCapacity, needAuth, ';
+            sql += 'INSERT INTO TB_EVENT ( eventName, type, startDate, endDate, maxCapacity, status, needAuth, ';
             sql += 'siteOpen, obsUrl, playbackKey, playbackUrl, downloadUrl, feedbackUrl, status, createdAdminNo, createdDate ) ';
-            sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :needAuth, :siteOpen, ';
+            sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :status, :needAuth, :siteOpen, ';
             sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :downloadUrl, :feedbackUrl, :status, :createdAdminNo, NOW() )';
 
             var ret = await query.insert(sql, {
@@ -202,6 +203,7 @@ router.post('/create', async function (req, res, next) {
                 'startDate' : startDate,
                 'endDate' : endDate,
                 'maxCapacity' : maxCapacity,
+                'status' : status,
                 'needAuth' : needAuth,
                 'siteOpen' : siteOpen,
                 'obsUrl' : obsUrl,
@@ -210,7 +212,6 @@ router.post('/create', async function (req, res, next) {
                 'ondemandUrl' : ondemandUrl,
                 'downloadUrl' : downloadUrl,
                 'feedbackUrl' : feedbackUrl,
-                'status' : 'READY',
                 'createdAdminNo' : userNo
             });
         }

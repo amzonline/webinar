@@ -1,8 +1,7 @@
-const util = require('util');
 var fs = require('fs');
 var AWS = require('aws-sdk');
 
-const count = 1000000;
+const count = 1000000;  // change log count !!!
 const fn='./log_sample.txt';
 fs.open(fn,'w',function(err,fd){
     if (err) throw err; console.log('file open complete');
@@ -27,7 +26,6 @@ function generateIPAddress(min, max) {
 function genLog() {
     try {
 
-
         var userID = Math.random() * (9999999 - 1000000) + 1000000;
         var ipAddress = generateIPAddress(0, 255);
         var eventID = Math.random() * (3 - 1) + 1;
@@ -48,14 +46,14 @@ function genLog() {
 
         tm= year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 
+        // write one row
         var data = '';
         data = Math.round(userID) + ',' + ipAddress + ',' ;
         data += Math.round(eventID) + ',' + tag + ',' + level + ',' + tm + '\n';
-        //console.log('log : ' + data);
 
         //list.push(log)
         fs.appendFile(fn, data, 'utf8', function(error){
-            //console.log(data)
+
         });
 
     } catch (err) {

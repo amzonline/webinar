@@ -140,6 +140,23 @@
                                         <div class="col-md-5">
                                             <div class="step-cnt">
                                                 <div class="form-group">
+                                                    <label>Status</label>
+                                                    <%
+                                                    var opt1 = 'selected'  ;
+                                                    var opt2 = '';
+                                                    var opt3 = '';
+                                                    if (ivsevent.status == 'READY') { opt1 = 'selected'; opt2 = ''; opt3 = '';}
+                                                    else if (ivsevent.status == 'START') { opt1 = ''; opt2 = 'selected'; opt3 = '';}
+                                                    else if (ivsevent.status == 'END') { opt1 = ''; opt2 = ''; opt3 = 'selected';}
+                                                    %>
+                                                    <select id="status" name="status" class="form-control">
+                                                        <option value="READY" <%=opt1%>>READY</option>
+                                                        <option value="START" <%=opt2%>>START</option>
+                                                        <option value="END" <%=opt3%>>END</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label>NEED AUTH</label>
                                                     <%
                                                     var opt1 = ''  ;
