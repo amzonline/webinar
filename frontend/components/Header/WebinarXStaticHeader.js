@@ -16,6 +16,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Menu from "@material-ui/icons/Menu";
 import Close from "@material-ui/icons/Close";
 // core components
+
 import styles from "assets/jss/nextjs-material-kit-pro/components/webinarXHeaderStyle.js";
 
 import awsLogo from 'assets/img/aws-logo-white-new.png';
@@ -153,3 +154,4 @@ Header.propTypes = {
     ]).isRequired
   })
 };
+

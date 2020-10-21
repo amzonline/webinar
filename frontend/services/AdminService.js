@@ -6,7 +6,14 @@ const getEventMeta = (eventId) => {
   })
 };
 
+const getEventStatus = (eventId) => {
+  return http.post("/admin/event", {
+    eventNo: eventId,
+    status: "on"
+  })
+};
 
 export default {
-  getEventMeta
+  getEventMeta,
+  getEventStatus
 }

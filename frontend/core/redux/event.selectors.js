@@ -16,3 +16,18 @@ export const selectEventPlaybackUrl = createSelector(
   [selectEventMeta],
   eventMeta => eventMeta.playbackUrl
 );
+
+export const selectEventId = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.eventNo
+);
+
+export const selectDownloadUrl = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.downloadUrl
+);
+
+export const selectFeedbackUrl = createSelector(
+  [selectEventMeta],
+  eventMeta => eventMeta.feedbackUrl
+);

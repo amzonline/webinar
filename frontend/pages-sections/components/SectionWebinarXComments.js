@@ -124,7 +124,7 @@ function SectionWebinarComments(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       loadBoards();
-    }, 5000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
   
@@ -148,7 +148,7 @@ function SectionWebinarComments(props) {
       const idToken = session.idToken.jwtToken;
 
       const response = await BoardService.getAll(idToken, eventId);
-      console.log(response.data.list);
+      // console.log(response.data.list);
       setContents(response.data.list);
       
     } catch (error) {

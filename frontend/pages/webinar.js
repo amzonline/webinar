@@ -14,7 +14,7 @@ import Favorite from "@material-ui/icons/Favorite";
 
 import Footer from "components/Footer/WebinarXFooter.js";
 
-import Player from "components/Video/IvsPlayer2.js"
+import Player from "components/Video/IvsPlayerNew.js"
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../core/aws-exports';
@@ -51,7 +51,7 @@ function Webinar(props) {
     <>
       <div className={classes.gridRoot}>
         <Grid container direction="row" justify="center" spacing={3} alignItems="stretch" alignContent="stretch" >
-          <Grid item justify="center" xs={12}>
+          <Grid item xs={12}>
             <Header
               brand="AWS"
               links={<HeaderLinks dropdownHoverColor="info" />}
@@ -61,10 +61,10 @@ function Webinar(props) {
           <Grid item xs={9} className={classes.videoPlayer}>
             <Player />
           </Grid>
-          <Grid item justify="center" xs={3} className={classes.comments}>
+          <Grid item xs={3} className={classes.comments}>
               <SectionWebinarComments />
           </Grid>
-          <Grid item justify="center" xs={12}>
+          <Grid item xs={12}>
             <Footer
               theme="transparent"
               content={
