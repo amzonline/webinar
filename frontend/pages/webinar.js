@@ -91,13 +91,14 @@ function Webinar(props) {
                       </ListItem>
                       <ListItem className={classes.inlineBlock}>
                         <a
-                          href="https://aws.amazon.com/"
+                          href="https://aws.amazon.com/ko/blogs/aws/"
+                          target="_blank"
                           className={classes.block}
                         >
                           Blog
                         </a>
                       </ListItem>
-                      <ListItem className={classes.inlineBlock}>
+                      {/* <ListItem className={classes.inlineBlock}>
                         <a
                           href="https://aws.amazon.com/"
                           target="_blank"
@@ -105,7 +106,7 @@ function Webinar(props) {
                         >
                           Licenses
                         </a>
-                      </ListItem>
+                      </ListItem> */}
                     </List>
                   </div>
                 </div>

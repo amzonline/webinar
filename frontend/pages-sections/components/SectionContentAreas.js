@@ -570,6 +570,7 @@ export default function SectionContentAreas() {
                     >
                       <Favorite /> 243
                     </Button>
+                    <hr/>
                   </div>
                 }
                 innerMedias={[

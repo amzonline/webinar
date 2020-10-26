@@ -1,4 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import * as config from '../../ivsconfig';
 import AdminService from "../../services/AdminService";
 import LoggingService from "../../services/LoggingService";
@@ -13,31 +14,31 @@ import { selectEventId, selectEventName, selectEventPlaybackUrl } from '../../co
 // Styles
 import './IvsPlayerNew.css';
 
-function IvsPlayer(props) {
-    // const maxMetaData = 10;
-    // const metaData = [];
-    let eventStatus = "-";
-    let player = null;
+class IvsPlayer extends Component {
+    constructor() {
+        super ();
+        this.state = {
+            maxMetaData: 10,
+            metaData: [],
+            eventStatus: "-",
+            player: null
+        }
+    }
 
-    const playbackUrl = props.eventPlaybackUrl;
-    const eventId = props.eventId;
-    var myPublicIp = "";
-    var userId = "";
-
-    async function sendUserLog() {
+    async sendUserLog() {
         try {
             // const timestamp = sysdate.format('{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}');
             const timestamp = moment().format('YYYY-MM-DD hh:mm:ss');
             // console.log('timestamp : ' + timestamp);
             const response = await LoggingService.sendUserLog(
-                eventId, userId, 'IvsPlayer', timestamp, myPublicIp);
+                this.props.eventId, this.props.userId, 'IvsPlayer', timestamp, myPublicIp);
         
         } catch (error) {
             console.log(error.message);
         }
     } 
 
-    async function loadUserData() {
+    loadUserData() {
         try {
             myPublicIp = await publicIp.v4();
 
@@ -45,64 +46,57 @@ function IvsPlayer(props) {
             // console.log(userInfo);
             // console.log(userInfo.username);
             // console.log(userInfo.attributes.sub);
-            userId = "" + userInfo.attributes.sub + "+" + userInfo.username;
+            userId = userInfo.attributes.sub;
+            
 
         } catch (error) {
             console.log(error.message);
         }
     }
 
-    useEffect(() => {
-        loadUserData();
-        const interval = setInterval(() => {
-            sendUserLog();
-        }, 10000);
-        return () => clearInterval(interval);
-      }, []);
-
-  function loadStandByVideo() {
-    player.load(config.STAND_BY_PLAYBACK_URL);
-    player.setVolume(0.5);
+  loadStandByVideo() {
+    this.player.load(config.STAND_BY_PLAYBACK_URL);
+    this.player.setVolume(0.5);
   }
 
-  function loadVideo() {
-    player.load(props.eventPlaybackUrl);
-    player.setVolume(1.0);
+  loadVideo() {
+    this.player.load(this.props.eventPlaybackUrl);
+    this.player.setVolume(0.5);
   }
 
-  async function checkVideoStatus() {
-    const response = await AdminService.getEventStatus(props.eventId);
+  async checkVideoStatus() {
+    const response = await AdminService.getEventStatus(this.props.eventId);
     // console.log(response);
     const status = response.data.message.status;
-    console.log("status: " + status + " eventStatus: " + eventStatus);
+    console.log("status: " + status + " eventStatus: " + this.eventStatus);
     // console.log("status: " + status);
-    if (status === "START" && eventStatus !== "START") {
-        loadVideo();
-    } else if (status === "END" && eventStatus === "START") {
-        loadStandByVideo();
-    } else if (status === "READY" && eventStatus === "-") {
-        loadStandByVideo();
+    if (status === "START" && this.eventStatus !== "START") {
+        this.loadVideo();
+    } else if (status === "END" && this.eventStatus === "START") {
+        this.loadStandByVideo();
+    } else if (status === "READY" && this.eventStatus === "-") {
+        this.loadStandByVideo();
     }
-    eventStatus = status;
+    this.eventStatus = status;
   }
 
-  function videoStatusChecker() {
+  videoStatusChecker() {
     const interval = setInterval(() => {
-        checkVideoStatus();
-      }, 3000);
+        this.checkVideoStatus();
+      }, 5000);
       return () => clearInterval(interval);
   }
 
 
-  useEffect(() => {
+  componentDidMount() {
     const mediaPlayerScript = document.createElement("script");
     mediaPlayerScript.src = "https://player.live-video.net/1.0.0/amazon-ivs-player.min.js";
     mediaPlayerScript.async = true;
-    mediaPlayerScript.onload = () => mediaPlayerScriptLoaded();
+    mediaPlayerScript.onload = () => this.mediaPlayerScriptLoaded();
     document.body.appendChild(mediaPlayerScript);
-  }, [])
+  }
 
-  function mediaPlayerScriptLoaded() {
+  mediaPlayerScriptLoaded = () => {
     // This shows how to include the Amazon IVS Player with a script tag from our CDN
     // If self hosting, you may not be able to use the create() method since it requires
     // that file names do not change and are all hosted from the same directory.
@@ -119,55 +113,52 @@ function IvsPlayer(props) {
     const PlayerEventType = MediaPlayerPackage.PlayerEventType;
 
     // Initialize player
-    player = MediaPlayerPackage.create();
-    player.attachHTMLVideoElement(document.getElementById("video-player"));
+    this.player = MediaPlayerPackage.create();
+    this.player.attachHTMLVideoElement(document.getElementById("video-player"));
 
     // Attach event listeners
-    player.addEventListener(PlayerState.PLAYING, () => {
+    this.player.addEventListener(PlayerState.PLAYING, () => {
         console.log("Player State - PLAYING");
     });
-    player.addEventListener(PlayerState.ENDED, () => {
+    this.player.addEventListener(PlayerState.ENDED, () => {
         console.log("Player State - ENDED");
     });
-    player.addEventListener(PlayerState.READY, () => {
+    this.player.addEventListener(PlayerState.READY, () => {
         console.log("Player State - READY");
     });
-    player.addEventListener(PlayerEventType.ERROR, (err) => {
+    this.player.addEventListener(PlayerEventType.ERROR, (err) => {
         console.warn("Player Event - ERROR:", err);
     });
-    // player.addEventListener(PlayerEventType.TEXT_METADATA_CUE, (cue) => {
-    //     console.log('Timed metadata: ', cue.text);
-    //     const metadataText = JSON.parse(cue.text);
-    //     const productId = metadataText['productId'];
-    //     props.setMetadataId(productId);
-    //     const metadataTime = player.getPosition().toFixed(2);
+    this.player.addEventListener(PlayerEventType.TEXT_METADATA_CUE, (cue) => {
+        console.log('Timed metadata: ', cue.text);
+        const metadataText = JSON.parse(cue.text);
+        const productId = metadataText['productId'];
+        this.props.setMetadataId(productId);
+        const metadataTime = player.getPosition().toFixed(2);
 
-    //     const { metaData, maxMetaData } = state;
-    //     // only keep max 5 metadata records
-    //     if (metaData.length > maxMetaData) {
-    //       metaData.length = maxMetaData;
-    //     }
-    //     // insert new metadata
-    //     metaData.unshift(`productId: ${productId} (${metadataTime}s)`);
-    //     setState({ metaData });
-    // });
+        const { metaData, maxMetaData } = this.state;
+        // only keep max 5 metadata records
+        if (metaData.length > maxMetaData) {
+          metaData.length = maxMetaData;
+        }
+        // insert new metadata
+        metaData.unshift(`productId: ${productId} (${metadataTime}s)`);
+        this.setState({ metaData });
+    });
 
     // Setup stream and play
-    player.setAutoplay(true);
+    this.player.setAutoplay(true);
 
-    player.load(config.STAND_BY_PLAYBACK_URL);
-    player.setVolume(0.5);
+    this.eventStatus = "-";
+    this.videoStatusChecker();
 
-    eventStatus = "-";
-    videoStatusChecker();
+    // this.player.load(config.PLAYBACK_URL);
+    // this.player.setVolume(0.5);
 
-    // player.load(config.PLAYBACK_URL);
-    // player.setVolume(0.5);
-
-    // runTimer();
+    // this.runTimer();
   }
 
-
+  render() {
     return (
         <div style={{padding:"10px"}}>
             <video
@@ -180,12 +171,13 @@ function IvsPlayer(props) {
             />
         </div>
     )
+  }
 }
 
-// IvsPlayer.propTypes = {
-//   setMetadataId: PropTypes.func,
-//   videoStream: PropTypes.string,
-// };
+IvsPlayer.propTypes = {
+  setMetadataId: PropTypes.func,
+  videoStream: PropTypes.string,
+};
 
 
 const mapStateToProps = state => ({
@@ -195,5 +187,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(IvsPlayer);

@@ -4,7 +4,7 @@ import axios from "axios";
 // const BASE_URL = dev? "https://0ao4gnpagc.execute-api.ap-northeast-2.amazonaws.com/Prod": 
 //                 "https://dqqryphhuqfyi.cloudfront.net/Prod";
 
-const BASE_URL = "https://dqqryphhuqfyi.cloudfront.net/Prod";
+const BASE_URL = "/Prod";
 
 export default axios.create({
   baseURL: BASE_URL,

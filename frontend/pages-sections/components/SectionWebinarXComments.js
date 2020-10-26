@@ -98,7 +98,7 @@ function SectionWebinarComments(props) {
         console.log('token: ' + session.idToken.jwtToken);
         const idToken = session.idToken.jwtToken;
 
-        if (content.length < 10) {
+        if (content.length < 4) {
           alert("질문 길이가 너무 짧습니다.");
           return;
         }
