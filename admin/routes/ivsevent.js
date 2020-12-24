@@ -27,7 +27,7 @@ router.get('/', async function (req, res, next) {
         const historyCnt = await query.findOne(sql);
 
         res.render('page/event/ivsevent.ejs',
-                {ivsevent: ivsevent,historyCnt: historyCnt });
+            {ivsevent: ivsevent,historyCnt: historyCnt });
     } catch (e) {
         next({
             'status': 400,
@@ -81,7 +81,7 @@ router.get('/playback', async function (req, res, next) {
         const historyCnt = await query.findOne(sql);
 
         res.render('page/event/playback.ejs',
-                { historyCnt: historyCnt});
+            { historyCnt: historyCnt});
 
     } catch (e) {
         next({
@@ -144,7 +144,8 @@ router.post('/create', async function (req, res, next) {
 
     var status = req.body.status;
     var needAuth = req.body.needAuth;
-    var siteOpen = req.body.siteOpen;
+    var QnAOpen = req.body.QnAOpen;
+    var expertOpen = req.body.expertOpen;
     var obsUrl = req.body.obsUrl;
     var playbackKey = req.body.playbackKey;
     var playbackUrl = req.body.playbackUrl;
@@ -165,7 +166,7 @@ router.post('/create', async function (req, res, next) {
             let sql = "";
             sql = "";
             sql += 'UPDATE TB_EVENT SET eventName = :eventName, type = :type, startDate = :startDate, endDate = :endDate, '  ;
-            sql += 'maxCapacity = :maxCapacity, status = :status, needAuth = :needAuth, siteOpen = :siteOpen, obsUrl = :obsUrl, ';
+            sql += 'maxCapacity = :maxCapacity, status = :status, needAuth = :needAuth, QnAOpen = :QnAOpen, expertOpen = :expertOpen,obsUrl = :obsUrl, ';
             sql += 'playbackKey = :playbackKey, playbackUrl = :playbackUrl, ondemandUrl = :ondemandUrl, status = :status, ';
             sql += 'downloadUrl = :downloadUrl, feedbackUrl = :feedbackUrl, ';
             sql += 'updatedAdminNo = :updatedAdminNo, updatedDate = NOW() ';
@@ -179,7 +180,8 @@ router.post('/create', async function (req, res, next) {
                 'maxCapacity' : maxCapacity,
                 'status' : status,
                 'needAuth' : needAuth,
-                'siteOpen' : siteOpen,
+                'QnAOpen' : QnAOpen,
+                'expertOpen' : expertOpen,
                 'obsUrl' : obsUrl,
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
@@ -193,9 +195,9 @@ router.post('/create', async function (req, res, next) {
             let sql = "";
             sql = "";
             sql += 'INSERT INTO TB_EVENT ( eventName, type, startDate, endDate, maxCapacity, status, needAuth, ';
-            sql += 'siteOpen, obsUrl, playbackKey, playbackUrl, downloadUrl, feedbackUrl, status, createdAdminNo, createdDate ) ';
-            sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :status, :needAuth, :siteOpen, ';
-            sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :downloadUrl, :feedbackUrl, :status, :createdAdminNo, NOW() )';
+            sql += 'QnAOpen, expertOpen, obsUrl, playbackKey, playbackUrl, downloadUrl, feedbackUrl, createdAdminNo, createdDate ) ';
+            sql += 'VALUES ( :eventName, :type, :startDate, :endDate, :maxCapacity, :status, :needAuth, :QnAOpen, :expertOpen, ';
+            sql += ':obsUrl, :playbackKey, :playbackUrl, :ondemandUrl :downloadUrl, :feedbackUrl, :createdAdminNo, NOW() )';
 
             var ret = await query.insert(sql, {
                 'eventName' : eventName,
@@ -205,7 +207,8 @@ router.post('/create', async function (req, res, next) {
                 'maxCapacity' : maxCapacity,
                 'status' : status,
                 'needAuth' : needAuth,
-                'siteOpen' : siteOpen,
+                'QnAOpen' : QnAOpen,
+                'expertOpen' : expertOpen,
                 'obsUrl' : obsUrl,
                 'playbackKey' : playbackKey,
                 'playbackUrl' : playbackUrl,
