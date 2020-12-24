@@ -42,6 +42,10 @@ import Error from "@material-ui/icons/Error";
 import Typography from '@material-ui/core/Typography';
 
 // core components
+import { connect } from 'react-redux';
+import { selectDownloadUrl, selectFeedbackUrl } from '../../core/redux/event.selectors';
+
+
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 
@@ -49,7 +53,7 @@ import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksSty
 
 const useStyles = makeStyles(styles);
 
-export default function HeaderLinks(props) {
+function HeaderLinks(props) {
   const easeInOutQuad = (t, b, c, d) => {
     t /= d / 2;
     if (t < 1) return (c / 2) * t * t + b;
@@ -91,9 +95,10 @@ export default function HeaderLinks(props) {
 
   const { dropdownHoverColor } = props;
   const classes = useStyles();
+  
   return (    
     <List className={classes.list + " " + classes.mlAuto}>
-      <ListItem className={classes.listItem}>
+      {/* <ListItem className={classes.listItem}>
         <Button
           href="https://aws.amazon.com/ko/"
           color="transparent"
@@ -116,11 +121,11 @@ export default function HeaderLinks(props) {
           <Icon className={classes.icons}>unarchive</Icon> 
           <Typography variant="subtitle1" className={classes.title}>발표자 소개</Typography>
         </Button>
-      </ListItem>
+      </ListItem> */}
 
       <ListItem className={classes.listItem}>
         <Button
-          href="https://aws.amazon.com/ko/"
+          href={props.downloadUrl}
           color="transparent"
           target="_blank"
           className={classes.navLink}
@@ -132,7 +137,7 @@ export default function HeaderLinks(props) {
 
       <ListItem className={classes.listItem}>
         <Button
-          href="https://aws.amazon.com/ko/"
+          href={props.feedbackUrl}
           color="transparent"
           target="_blank"
           className={classes.navLink}
@@ -160,3 +165,13 @@ HeaderLinks.propTypes = {
     "rose"
   ])
 };
+
+const mapStateToProps = state => ({
+  downloadUrl: selectDownloadUrl(state),
+  feedbackUrl: selectFeedbackUrl(state),
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderLinks);
+

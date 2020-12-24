@@ -98,7 +98,7 @@ function SectionWebinarComments(props) {
         console.log('token: ' + session.idToken.jwtToken);
         const idToken = session.idToken.jwtToken;
 
-        if (content.length < 10) {
+        if (content.length < 4) {
           alert("질문 길이가 너무 짧습니다.");
           return;
         }
@@ -124,7 +124,7 @@ function SectionWebinarComments(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       loadBoards();
-    }, 5000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
   
@@ -148,7 +148,7 @@ function SectionWebinarComments(props) {
       const idToken = session.idToken.jwtToken;
 
       const response = await BoardService.getAll(idToken, eventId);
-      console.log(response.data.list);
+      // console.log(response.data.list);
       setContents(response.data.list);
       
     } catch (error) {
