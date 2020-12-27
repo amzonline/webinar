@@ -44,6 +44,8 @@ import AdminService from "../../services/AdminService";
 import backgroundImage from "assets/img/summit-background.png";
 import office2 from "assets/img/examples/office2.jpg";
 
+import {isDev} from "../../services/Util";
+
 const useStyles = makeStyles(headersStyle);
 
 function makeTempPassword(key) {
@@ -54,11 +56,12 @@ const LoginPage = ({ registerEventMeta }) => {
 
   const router = useRouter()
   const { eventid } = router.query;
+  console.log('Event Id is ' + eventid);
   const { register, handleSubmit, setValue } = useForm();
   const [ eventName, setEventName ] = useState("Checking...") ;
 
-  const dev = process.env.NODE_ENV !== 'production';
-  
+  // const dev = process.env.NODE_ENV !== 'production';
+  // console.log('Is dev? ' + dev);
   // async function checkSession() {
   //   try {
   //     const session = await Auth.currentSession();
@@ -75,7 +78,6 @@ const LoginPage = ({ registerEventMeta }) => {
   //   }
   // }
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
@@ -85,29 +87,33 @@ const LoginPage = ({ registerEventMeta }) => {
   async function getEventMeta() {
     //TODO: change code to Provider
     let eventData;
-    if(!dev) {
-      const response = await AdminService.getEventMeta(eventid);
-      eventData = response.data.message;
-      console.log(response.data.message);
-    } else {
-      const dummy = {
-        "message": {
-              "eventNo": 7,
-              "eventName": "[10/08] 새로운 웨비나 플랫폼 소개",
-              "type": "L",
-              "status": "READY",
-              "siteOpen": "1",
-              "needAuth": "0",
-              "startDate": "2020-10-08 15:00:00",
-              "endDate": "2020-10-08 17:00:00",
-              "maxCapacity": 100,
-              "obsUrl": "2",
-              "playbackKey": "3",
-              "playbackUrl": "https://0b377682ced3.us-west-2.playback.live-video.net/api/video/v1/us-west-2.223427183593.channel.wiHiuxdpsmEf.m3u8"
-          }
-      };
-      eventData = dummy.message;
-    }
+    const response = await AdminService.getEventMeta(eventid);
+    eventData = response.data.message;
+    console.log(response.data.message);
+    // if(!isDev()) {
+    //   const response = await AdminService.getEventMeta(eventid);
+    //   eventData = response.data.message;
+    //   console.log(response.data.message);
+    // } else {
+    //   const dummy = {
+    //     "message": {
+    //           "eventId": eventid,
+    //           "eventNo": 7,
+    //           "eventName": "[10/08] 새로운 웨비나 플랫폼 소개",
+    //           "type": "L",
+    //           "status": "READY",
+    //           "siteOpen": "1",
+    //           "needAuth": "0",
+    //           "startDate": "2020-10-08 15:00:00",
+    //           "endDate": "2020-10-08 17:00:00",
+    //           "maxCapacity": 100,
+    //           "obsUrl": "2",
+    //           "playbackKey": "3",
+    //           "playbackUrl": "https://0b377682ced3.us-west-2.playback.live-video.net/api/video/v1/us-west-2.223427183593.channel.wiHiuxdpsmEf.m3u8"
+    //       }
+    //   };
+    //   eventData = dummy.message;
+    // }
 
     setEventName(eventData.eventName);
     registerEventMeta(eventData);

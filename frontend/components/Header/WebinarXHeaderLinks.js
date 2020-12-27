@@ -54,6 +54,7 @@ import styles from "assets/jss/nextjs-material-kit-pro/components/headerLinksSty
 const useStyles = makeStyles(styles);
 
 function HeaderLinks(props) {
+  console.log('WebinarXHeaderLinks\' props' + JSON.stringify(props));
   const easeInOutQuad = (t, b, c, d) => {
     t /= d / 2;
     if (t < 1) return (c / 2) * t * t + b;

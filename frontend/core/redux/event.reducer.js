@@ -10,6 +10,7 @@ const eventReducer = (state = INITIAL_STATE, action) => {
     case EventActionTypes.EVENT_META:
       return {
         ...state,
+        event_id: action.payload.eventId,
         eventMeta: action.payload,
       };
     default:
