@@ -85,11 +85,11 @@ const LoginPage = ({ registerEventMeta }) => {
   }, [eventid]);
 
   async function getEventMeta() {
+    console.log('[eventid].js - getEventMeta() 실행...')
     //TODO: change code to Provider
     let eventData;
     const response = await AdminService.getEventMeta(eventid);
     eventData = response.data.message;
-    console.log(response.data.message);
     // if(!isDev()) {
     //   const response = await AdminService.getEventMeta(eventid);
     //   eventData = response.data.message;

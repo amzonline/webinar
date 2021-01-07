@@ -44,7 +44,7 @@ function Webinar(props) {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
     
-    console.log('redux 로부터 받은 props.eventName: ' + props.eventName);
+    console.log('webinar.js - redux 로부터 받은 props.eventName: ' + props.eventName);
   });
   
   return (

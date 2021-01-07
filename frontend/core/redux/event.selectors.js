@@ -29,5 +29,5 @@ export const selectDownloadUrl = createSelector(
 
 export const selectFeedbackUrl = createSelector(
   [selectEventMeta],
-  eventMeta => eventMeta.feedbackUrl
+  eventMeta => {console.log('eventMeta: ' + JSON.stringify(eventMeta)); return eventMeta.feedbackUrl}
 );

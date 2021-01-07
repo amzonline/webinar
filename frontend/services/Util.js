@@ -7,7 +7,8 @@ export default class Util {
 */
 
 const isDev = () => {
-    return process.env.NODE_ENV !== 'production';
+    console.log('isDev:' + process.env.NODE_ENV !== 'production')
+    return process.env.NODE_ENV !== 'production'
 }
 
 export {isDev}
