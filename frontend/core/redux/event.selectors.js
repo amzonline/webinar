@@ -19,7 +19,7 @@ export const selectEventPlaybackUrl = createSelector(
 
 export const selectEventId = createSelector(
   [selectEventMeta],
-  eventMeta => eventMeta.eventNo
+  eventMeta => eventMeta.eventId
 );
 
 export const selectDownloadUrl = createSelector(
@@ -29,5 +29,5 @@ export const selectDownloadUrl = createSelector(
 
 export const selectFeedbackUrl = createSelector(
   [selectEventMeta],
-  eventMeta => {console.log('eventMeta: ' + JSON.stringify(eventMeta)); return eventMeta.feedbackUrl}
+  eventMeta => eventMeta.feedbackUrl
 );

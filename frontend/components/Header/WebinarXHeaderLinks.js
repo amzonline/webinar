@@ -43,7 +43,7 @@ import Typography from '@material-ui/core/Typography';
 
 // core components
 import { connect } from 'react-redux';
-import { selectDownloadUrl, selectFeedbackUrl } from '../../core/redux/event.selectors';
+import { selectDownloadUrl, selectFeedbackUrl, selectEventId } from '../../core/redux/event.selectors';
 
 
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
@@ -169,7 +169,7 @@ HeaderLinks.propTypes = {
 
 const mapStateToProps = state => ({
   downloadUrl: selectDownloadUrl(state),
-  feedbackUrl: selectFeedbackUrl(state),
+  feedbackUrl: selectFeedbackUrl(state) + '/' + selectEventId(state),
 });
 
 const mapDispatchToProps = dispatch => ({});

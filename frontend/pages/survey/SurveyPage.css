@@ -1,0 +1,11 @@
+.SurveyPage {
+  margin-top: 30px;
+}
+
+.SurveyPage .survey {
+  background-color: #fff;
+}
+
+.SurveyPage .submit {
+  padding: 10px 30px;
+}
