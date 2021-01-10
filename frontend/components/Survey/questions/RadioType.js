@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Field } from 'formik';
+import { RadioGroup } from '@material-ui/core';
 import { Radio } from '@material-ui/core'
 
 const RadioType = (props) => {
@@ -10,16 +11,18 @@ const RadioType = (props) => {
     <div>
       <h3 className="question-title">{question}</h3>
       <div>
-      {choice.map((item, index) => {
-        return (
-            <div key={index} className="radio">
-              <label>
-                <Field as={Radio} name={fieldname} value={index}/>
-                {item.display}
-              </label>
-            </div>
-        )
-      })}
+        <RadioGroup name={fieldname}>
+          {choice.map((item, index) => {
+            return (
+              <div key={index} className="radio">
+                <label>
+                  <Field as={Radio} name={fieldname} value={item.display}/>
+                  {item.display}
+                </label>
+              </div>
+            )
+          })}
+        </RadioGroup>
       </div>
     </div>
   );
