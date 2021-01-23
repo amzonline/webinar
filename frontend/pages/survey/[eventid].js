@@ -102,13 +102,36 @@ export async function getServerSideProps(context) {
         },
         {
           "questionNo": 3,
+          "question": "본 세션의 만족도 점수를 선택해주세요.",
+          "type": "radio",
+          "choice": [
+            {
+              "display": "1"
+            },
+            {
+              "display": "2"
+            },
+            {
+              "display": "3"
+            },
+            {
+              "display": "4"
+            },
+            {
+              "display": "5"
+            }
+          ],
+          "mandatory": true
+        },
+        {
+          "questionNo": 4,
           "question": "이번 세션에 개선점이 있다면 간략히 기술부탁드립니다",
           "type": "textfield",
           "maxInput": 50,
           "mandatory": false
         },
         {
-          "questionNo": 4,
+          "questionNo": 5,
           "question": "추가 comments 가 있으시면 자유롭게 기술부탁드립니다.",
           "type": "textarea",
           "maxInput": 500,

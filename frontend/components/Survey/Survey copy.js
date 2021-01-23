@@ -1,4 +1,4 @@
-import { Formik, Form, withFormik } from 'formik';
+import { Formik, withFormik } from 'formik';
 import * as React from 'react';
 import QuestionWrapper from './QuestionWrapper';
 import { Button } from '@material-ui/core'
@@ -14,10 +14,6 @@ const Survey = (props) => {
     initialValues["question_" + (i+1)] = ''
   }
 
-  const validationSchema = {
-// <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-  }
-
   console.log("initialValues for Formik = "+ JSON.stringify(initialValues))
   const onSubmit = (values, actions) => {
     console.log('onSubmit values = ' + JSON.stringify(values))
@@ -27,7 +23,9 @@ const Survey = (props) => {
   return (
       <div className="Survey">
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            <Form>
+        { ({ values, handleChange, handleSubmit }) => {
+          return (
+            <form onSubmit={handleSubmit}>
               <header>
                 <h3>{subject}</h3>
                 <p>{description}</p>
@@ -42,7 +40,9 @@ const Survey = (props) => {
                   Submit
                 </Button>
               </div>
-            </Form>
+            </form>
+          );
+        }}
         </Formik>
       </div>
   );

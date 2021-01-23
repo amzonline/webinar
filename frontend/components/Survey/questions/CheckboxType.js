@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Field } from 'formik';
+import { Field, ErrorMessage } from 'formik';
 import { Checkbox } from "@material-ui/core"
+import { QuestionTypes } from '../QuestionWrapper';
 
 const CheckboxeType = (props) => {
   const { questionNo, question, choice, mandatory } = props;
   const fieldname = "question_" + questionNo
   return (
     <div>
-      <h3 className="question-title">{question}</h3>
+      <h3 className="question-title">{questionNo}. {question}</h3>
       <div>
       {choice.map((item, index) => {
         return (
@@ -19,6 +20,7 @@ const CheckboxeType = (props) => {
           </div>
         )
       })}
+      <ErrorMessage name={fieldname} />
       </div>
     </div>
   );
