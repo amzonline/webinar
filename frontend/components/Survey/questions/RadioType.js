@@ -5,7 +5,7 @@ import { Radio } from '@material-ui/core'
 
 const RadioType = (props) => {
   const { questionNo, question, choice, mandatory } = props;
-  const fieldname = "question_" + questionNo
+  const fieldname = "answers.question_" + questionNo
   // console.log('RadioType props ==> ' + JSON.stringify(props))
   return (
     <div>

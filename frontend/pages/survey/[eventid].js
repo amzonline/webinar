@@ -12,7 +12,7 @@ import './SurveyPage.css';
 Amplify.configure(awsExports);
 
 const SurveyPage = (survey) => {
-  console.log('survey data = ' + JSON.stringify(survey))
+  // console.log('survey data = ' + JSON.stringify(survey))
   const router = useRouter()
   useEffect(() => {
     checkSession()
@@ -26,7 +26,7 @@ const SurveyPage = (survey) => {
 
   async function checkSession() {
     try {
-      const session = await Auth.currentSession()
+      const session = await Auth.currentSession() // await currentSession Promise
       if (!session.isValid()) {
         moveToLogin()
       }
@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
   // test 를 위해서 일단 Lambda 로 조회해오는 부분을 막고 hardcoding 으로 quesion 정보를 넘겨주도록 한다.
   /*
   console.log('process.env.SURVEY_ENDPOINT_PREFIX=' + process.env.SURVEY_ENDPOINT_PREFIX)
-  const res = await fetch(process.env.SURVEY_ENDPOINT_PREFIX + context.params.eventid)
+  const res = await fetch(process.env.SURVEY_ENDPOINT_PREFIX + context.params.eventid) // dynamic routing info for [eventid].js is contained params in the context.
   const survey = await res.json()
   */
   const survey = {
@@ -141,7 +141,7 @@ export async function getServerSideProps(context) {
     }
   };
   //  const survey = 
-  console.log('survey data... = ' + JSON.stringify(survey))
+  // console.log('survey data... = ' + JSON.stringify(survey))
 
   // Pass data to the page via props
   return { props: survey }

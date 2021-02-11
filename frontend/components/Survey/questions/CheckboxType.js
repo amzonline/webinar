@@ -5,7 +5,7 @@ import { QuestionTypes } from '../QuestionWrapper';
 
 const CheckboxeType = (props) => {
   const { questionNo, question, choice, mandatory } = props;
-  const fieldname = "question_" + questionNo
+  const fieldname = "answers.question_" + questionNo
   return (
     <div>
       <h3 className="question-title">{questionNo}. {question}</h3>

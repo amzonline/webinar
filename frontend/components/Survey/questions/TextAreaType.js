@@ -4,7 +4,7 @@ import { TextareaAutosize } from '@material-ui/core'
 
 const TextAreaType = (props) => {
   const { questionNo, question, maxInput, mandatory } = props;
-  const fieldname = "question_" + questionNo
+  const fieldname = "answers.question_" + questionNo
   return (
     <div>
       <h3 className="question-title">{questionNo}. {question}</h3>
