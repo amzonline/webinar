@@ -45,6 +45,7 @@ import backgroundImage from "assets/img/summit-background.png";
 import office2 from "assets/img/examples/office2.jpg";
 
 import {isDev} from "../../services/Util";
+// import "../../env.js"
 
 const useStyles = makeStyles(headersStyle);
 
@@ -85,10 +86,11 @@ const LoginPage = ({ registerEventMeta }) => {
   }, [eventid]);
 
   async function getEventMeta() {
-    console.log('[eventid].js - getEventMeta() 실행...')
+    // console.log('[eventid].js - getEventMeta() 실행...')
     //TODO: change code to Provider
     let eventData;
     const response = await AdminService.getEventMeta(eventid);
+    // console.log("[eventid].js AdminService.getEventMeta 결과: " + JSON.stringify(response));
     eventData = response.data.message;
     // if(!isDev()) {
     //   const response = await AdminService.getEventMeta(eventid);

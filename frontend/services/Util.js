@@ -1,3 +1,4 @@
+// import '../env.js';
 /*
 export default class Util {
     isDev () {

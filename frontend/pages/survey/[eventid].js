@@ -8,6 +8,8 @@ import { setEventId, setSurveyQuestions } from '../../core/redux/survey.action';
 
 import Survey from '../../components/Survey/Survey';
 import './SurveyPage.css';
+// import dotenv from  'dotenv'
+// import '../../env.js';
 
 Amplify.configure(awsExports);
 
@@ -54,8 +56,8 @@ export async function getServerSideProps(context) {
   // console.log(`eventid:${eventid}`)
   // test 를 위해서 일단 Lambda 로 조회해오는 부분을 막고 hardcoding 으로 quesion 정보를 넘겨주도록 한다.
   /*
-  console.log('process.env.SURVEY_ENDPOINT_PREFIX=' + process.env.SURVEY_ENDPOINT_PREFIX)
-  const res = await fetch(process.env.SURVEY_ENDPOINT_PREFIX + context.params.eventid) // dynamic routing info for [eventid].js is contained params in the context.
+  console.log('process.env.SURVEY_ADMIN_ENDPOINT_PREFIX=' + process.env.SURVEY_ADMIN_ENDPOINT_PREFIX)
+  const res = await fetch(process.env.SURVEY_ADMIN_ENDPOINT_PREFIX + 'admin/' + context.params.eventid) // dynamic routing info for [eventid].js is contained params in the context.
   const survey = await res.json()
   */
   const survey = {
