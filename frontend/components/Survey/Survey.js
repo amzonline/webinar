@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import QuestionWrapper from './QuestionWrapper';
 import { Button } from '@material-ui/core'
 import { Auth } from 'aws-amplify';
-// import dotenv from  'dotenv'
-// import "../../env.js"
+import SlideDialog from '../Dialog/SlideDialog'
 
-const Survey = (props) => {
-
+export default function Survey(props) {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { subject, event_id, description, questions } = props;
 
+  const closeDialog = () => {
+    setDialogOpen(false)
+  };
+
+  const closeWindow = () => {
+    window.opener = null;
+    window.open('', '_self');
+    window.close();
+  }
   // console.log("questions = " + JSON.stringify(questions));
 
   // todo: get email for survey via useEffect. However, it would be better to bring from redux putting userInfo into redux when log in.
@@ -39,32 +47,31 @@ const Survey = (props) => {
   }
 
   console.log("initialValues for Formik = " + JSON.stringify(initialValues))
-  // TODO : 여기 처리해야 함.
   const onSubmit = async (values, actions) => {
     console.log('onSubmit values = ' + JSON.stringify(values))
-    // console.log('TODO: form submit 처리 개발해야 함...')
-    // console.log('process.env.NODE_ENV in Survey.js =' + process.env.NODE_ENV)
     // To use env variable in the client module, set variable name starts with "NEXT_PUBLIC_" in Next.js
     console.log('process.env.NEXT_PUBLIC_SURVEY_USER_ENDPOINT_PREFIX in Survey.js =' + process.env.NEXT_PUBLIC_SURVEY_USER_ENDPOINT_PREFIX)
-    try {
-      // Is it good to call directly api gateway from client?
-      const res = await fetch(process.env.NEXT_PUBLIC_SURVEY_USER_ENDPOINT_PREFIX + 'answer', {
+      // Call API Gateway
+      fetch(process.env.NEXT_PUBLIC_SURVEY_USER_ENDPOINT_PREFIX + 'answer', {
         method: "POST",
         mode: "cors",
         credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-          "Origin": "http://localhost:3000"
+          "Origin": process.env.NEXT_PUBLIC_CORS_ORIGIN
         },
         body: JSON.stringify(values)
-      });
-      const result = await res.json()
-      console(JSON.stringify(result))
-    } catch (error) {
-      console.log('error occurred. ' + JSON.stringify(error))
-    }
+      })
+      .then(res => res.json())
+      .then(() => openDialog())
+      .catch(err => console.error(err));
   }
+
+  const openDialog = () => {
+    setDialogOpen(true)
+  }
+
   return (
     <div className="Survey">
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -85,14 +92,9 @@ const Survey = (props) => {
           </div>
         </Form>
       </Formik>
+      <SlideDialog open={dialogOpen} onCloseWindow={closeWindow} onCloseDialog={closeDialog} title="Thank you for your survey"
+          contents='Your Survey was successfully saved. If you want to close survey window click "CLOSE" button.
+                    Or if you want to update survey click "CANCEL" button.' />
     </div>
   );
 }
-
-export default Survey
-/* export default withFormik({
-  mapPropsToValues: () => {},
-  handleSubmit: ( values, { props }) => {
-    props.onSubmit(props.event_id, values)
-  }
-})(Survey); */
